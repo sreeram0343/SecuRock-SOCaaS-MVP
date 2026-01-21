@@ -556,9 +556,10 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // CONFIGURABLE API BASE - Change this for cloud deployment
-        // For Hybrid Demo (GitHub Pages + Local Backend), keep localhost
-        const API_BASE = "http://localhost:8000";
+        // CONFIGURABLE API BASE - Auto-detect for Vercel or Localhost
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? "http://localhost:8000"
+            : ""; // Relative path for Vercel/Production
         let isOffline = false;
 
         // --- Core Fetch Loop ---
