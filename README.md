@@ -75,6 +75,10 @@ python agent/agent.py
 3. **Download Report**: Go to dashboard and click "Download" to save the incident log.
 
 ## Troubleshooting
+- **Lovable / GitHub Pages "OFFLINE"**: 
+  - If hosting online but connecting to localhost, your browser might block "Mixed Content" (HTTPS -> HTTP).
+  - **Fix**: Click the **Shield/Lock Icon** in your browser URL bar > **Site Settings** > **Allow Insecure Content** (or "Disable Protection for this site").
 - **No Data?**: Ensure Backend is running before Agent.
-- **CORS Error?**: Dashboard is just an HTML file, modern browsers might block local file fetches. If so, run python simple server in dashboard folder: `python -m http.server 8080`.
-- **Database Locked?**: Delete `backend/database.db` to reset.
+- **Port In Use?**: Kill existing python processes or change port in `main.py`.
+- **Git Error?**: Install Git from [git-scm.com](https://git-scm.com).
+

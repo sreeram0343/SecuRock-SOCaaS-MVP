@@ -365,7 +365,7 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid px-4">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="logo.jpg" alt="SecuRock Logo" height="40" class="me-3 rounded-circle border border-primary">
+                <i class="fas fa-shield-halved me-3 fs-2 text-primary"></i>
                 <div class="d-flex flex-column">
                     <span>SECUROCK</span>
                     <span class="text-white fw-light" style="font-size: 0.65rem; letter-spacing: 2px;">AUTOMATED
@@ -556,11 +556,8 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // CONFIGURABLE API BASE - Auto-detect for Vercel, Localhost, or File Protocol
-        const hostname = window.location.hostname;
-        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:';
-
-        const API_BASE = isLocal ? "http://localhost:8000" : ""; // Use relative path for Vercel/Production
+        // CONFIGURABLE API BASE - For Hybrid Lovable Deployment
+        const API_BASE = "http://localhost:8000";
         let isOffline = false;
 
         // --- Core Fetch Loop ---
