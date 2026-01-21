@@ -4,3 +4,4 @@ psutil
 requests
 pydantic
 sqlalchemy
+aiofiles

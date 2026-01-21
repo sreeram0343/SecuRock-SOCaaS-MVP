@@ -51,6 +51,17 @@ latest_response_log = "System monitor active."
 detector = detection.DetectionEngine()
 responder = response.ResponseEngine()
 
+# Serve Frontend (Robust Fallback for Vercel)
+from fastapi.responses import HTMLResponse
+@app.get("/", response_class=HTMLResponse)
+def read_root():
+    # Attempt to serve index.html from root
+    try:
+        with open("index.html", "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "<h1>SecuRock Backend Running</h1><p>index.html not found. Check deployment structure.</p>"
+
 # Models
 class Telemetry(BaseModel):
     cpu: float

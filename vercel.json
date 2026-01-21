@@ -1,31 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/agent/data",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/alerts",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/status",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/report",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/stats",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/docs",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/openapi.json",
+      "source": "/(.*)",
       "destination": "/api/index.py"
     }
   ]
