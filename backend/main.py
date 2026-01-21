@@ -62,6 +62,18 @@ def read_root():
     except FileNotFoundError:
         return "<h1>SecuRock Backend Running</h1><p>index.html not found. Check deployment structure.</p>"
 
+from fastapi.responses import FileResponse
+import os
+
+@app.get("/logo.jpg")
+def get_logo():
+    # Logo is in root, this file is in backend/
+    # Go up one level from this file's directory
+    file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logo.jpg")
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return FileResponse("logo.jpg") # Fallback
+
 # Models
 class Telemetry(BaseModel):
     cpu: float
