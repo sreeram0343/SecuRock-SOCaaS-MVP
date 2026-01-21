@@ -13,17 +13,24 @@
 - Python 3.9+
 - Pip
 
-## Installation
+## Deployment Framework (Hybrid Architecture)
+This project is designed for a **Hybrid Demo Deployment**:
+- **Frontend** (Dashboard): Hosted publicly on **GitHub Pages**.
+- **Backend & Agent**: Hosted locally on your laptop (`localhost`).
+- **Telemetry**: The public dashboard fetches data from your local backend via browser-side `fetch()` requests (CORS enabled).
 
-1. Navigate to the project root:
-   ```bash
-   cd SecuRock
-   ```
+### 1. Web Deployment (GitHub Pages)
+1. Push this code to GitHub.
+2. Go to **Settings > Pages**.
+3. Set **Source** to `main` branch and `/root` folder.
+4. Your SOC Dashboard is now live at `https://<username>.github.io/<repo-name>`.
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 2. Local Backend Run
+You MUST keep the backend running on your laptop for the dashboard to show data.
+```bash
+uvicorn backend.main:app --reload
+```
+*The public dashboard will connect to this local instance automatically.*
 
 ## How to Run the Demo
 

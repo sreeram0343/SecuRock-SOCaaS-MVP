@@ -374,6 +374,10 @@
             </a>
 
             <div class="d-flex align-items-center gap-4">
+                <div class="d-flex align-items-center text-info small fw-bold border border-info px-2 py-1 rounded"
+                    style="letter-spacing: 1px;">
+                    <i class="fas fa-satellite-dish me-2"></i>DEPLOYMENT: LIVE DEMO
+                </div>
                 <div class="d-none d-md-flex align-items-center text-muted small fw-bold" style="letter-spacing: 1px;">
                     <span class="live-dot" id="liveIndicator"></span> LIVE MONITORING
                 </div>
@@ -552,6 +556,8 @@
 
     <!-- JavaScript Logic -->
     <script>
+        // CONFIGURABLE API BASE - Change this for cloud deployment
+        // For Hybrid Demo (GitHub Pages + Local Backend), keep localhost
         const API_BASE = "http://localhost:8000";
         let isOffline = false;
 
