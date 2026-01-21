@@ -9,7 +9,14 @@ from . import detection
 from . import response
 
 # Database Setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/database.db"
+import os
+# Check if running in Vercel (environment variable)
+if os.environ.get("VERCEL"):
+    # Vercel filesystem is read-only except /tmp
+    SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/database.db"
+else:
+    SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/database.db"
+
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -107,6 +114,13 @@ def get_status():
         "status": system_status,
         "log": latest_response_log
     }
+
+@app.get("/stats")
+def get_stats():
+    db = SessionLocal()
+    count = db.query(Alert).count()
+    db.close()
+    return {"total_incidents": count}
 
 @app.get("/report")
 def generate_report():

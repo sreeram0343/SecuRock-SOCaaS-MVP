@@ -577,11 +577,16 @@
                 const statusData = await statusRes.json();
                 updateSystemStatus(statusData);
 
-                // 2. Alerts
+                // 2. Stats (Total Incidents)
+                const statsRes = await fetch(`${API_BASE}/stats`);
+                const statsData = await statsRes.json();
+                animateValue(document.getElementById('metricTotalAlerts'), statsData.total_incidents);
+
+                // 3. Alerts
                 const alertsRes = await fetch(`${API_BASE}/alerts`);
                 const alertsData = await alertsRes.json();
                 updateAlertsTable(alertsData);
-                updateMetrics(alertsData, statusData);
+                updateMetrics(alertsData, statusData); // Update other metrics
                 updateTimeline(alertsData);
 
                 // 3. Auto-Fetch Report if Active Threat
@@ -707,7 +712,7 @@
             }
 
             animateValue(document.getElementById('metricActiveThreats'), activeThreats);
-            animateValue(document.getElementById('metricTotalAlerts'), alerts.length);
+            // metricTotalAlerts handled by /stats fetch now
 
             // Health Logic
             const healthEl = document.getElementById('metricHealth');
