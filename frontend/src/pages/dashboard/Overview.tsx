@@ -56,7 +56,7 @@ export default function Overview() {
         value: number;
     }
 
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
         totalAlerts: 0,
         openIncidents: 0,
@@ -90,7 +90,7 @@ export default function Overview() {
             } catch (error) {
                 console.error("Failed to fetch dashboard metrics", error);
             } finally {
-                setLoading(false);
+                // setLoading(false);
             }
         };
 

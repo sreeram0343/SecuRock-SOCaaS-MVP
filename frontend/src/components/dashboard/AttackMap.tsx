@@ -1,5 +1,5 @@
 
-import React, { useMemo } from "react";
+import React from "react";
 import { ComposableMap, Geographies, Geography, Marker, Line } from "react-simple-maps";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -23,8 +23,8 @@ const AttackMap: React.FC<MapProps> = ({ attacks }) => {
                 style={{ width: "100%", height: "100%" }}
             >
                 <Geographies geography={geoUrl}>
-                    {({ geographies }) =>
-                        geographies.map((geo) => (
+                    {({ geographies }: { geographies: any[] }) =>
+                        geographies.map((geo: any) => (
                             <Geography
                                 key={geo.rsmKey}
                                 geography={geo}

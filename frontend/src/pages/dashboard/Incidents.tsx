@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useIncidentStore } from '@/store/incidentStore';
 
 export default function Incidents() {
-    const { incidents, fetchIncidents, isLoading } = useIncidentStore();
+    const { incidents, fetchIncidents } = useIncidentStore();
 
     useEffect(() => {
         fetchIncidents();
