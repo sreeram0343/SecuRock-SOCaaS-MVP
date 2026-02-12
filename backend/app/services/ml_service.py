@@ -1,7 +1,12 @@
-
-import joblib
 import os
-import numpy as np
+
+try:
+    import joblib
+    import numpy as np
+    ML_AVAILABLE = True
+except ImportError:
+    ML_AVAILABLE = False
+    print("⚠️ ML dependencies not found. specific ML features will be disabled.")
 
 class MLService:
     def __init__(self):
@@ -17,7 +22,10 @@ class MLService:
             if os.path.exists(path):
                 self.model_path = path
                 break
-        self.load_model()
+        if ML_AVAILABLE:
+            self.load_model()
+        else:
+            print("ML Service running in heuristic mode (no ML libs).")
 
     def load_model(self):
         if self.model_path and os.path.exists(self.model_path):
@@ -35,7 +43,7 @@ class MLService:
         features: [packet_size, duration, request_rate]
         Returns: confidence score (0.0 to 1.0) where 1.0 is high confidence anomaly.
         """
-        if self.model:
+        if self.model and ML_AVAILABLE:
             try:
                 if not features or len(features) != 3:
                      # Fallback if features don't match model expectation
