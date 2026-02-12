@@ -49,9 +49,9 @@ async def redis_listener():
 async def startup_event():
     asyncio.create_task(redis_listener())
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to SecuRock SOC API"}
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "service": "SecuRock SOC API"}
 
 # Register all API routers
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
