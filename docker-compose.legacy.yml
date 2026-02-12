@@ -1,0 +1,97 @@
+version: '3.9'
+
+services:
+  wazuh.indexer:
+    image: wazuh/wazuh-indexer:4.7.2
+    hostname: wazuh.indexer
+    container_name: wazuh.indexer
+    ports:
+      - "9200:9200"
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      # Using demo certificates for MVP simplicity in verify-first approach
+      # In production we would generate valid certs
+      - "DISABLE_SECURITY_PLUGIN=false"
+    volumes:
+      - wazuh_indexer_data:/var/lib/wazuh-indexer
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - securock-net
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -k -u admin:admin https://localhost:9200 || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  wazuh.manager:
+    image: wazuh/wazuh-manager:4.7.2
+    hostname: wazuh.manager
+    container_name: wazuh.manager
+    ports:
+      - "1514:1514"
+      - "1515:1515"
+      - "55000:55000"
+    environment:
+      - INDEXER_URL=https://wazuh.indexer:9200
+      - INDEXER_USERNAME=admin
+      - INDEXER_PASSWORD=admin
+    volumes:
+      - wazuh_manager_data:/var/ossec/data
+    depends_on:
+      - wazuh.indexer
+    networks:
+      - securock-net
+
+  wazuh.dashboard:
+    image: wazuh/wazuh-dashboard:4.7.2
+    hostname: wazuh.dashboard
+    container_name: wazuh.dashboard
+    ports:
+      - "443:5601"
+    environment:
+      - INDEXER_URL=https://wazuh.indexer:9200
+      - INDEXER_USERNAME=admin
+      - INDEXER_PASSWORD=admin
+      - WAZUH_API_URL=https://wazuh.manager:55000
+      - WAZUH_API_USERNAME=wazuh
+      - WAZUH_API_PASSWORD=wazuh
+      # Disabling security plugin for dashboard to avoid complex cert setup in MVP if possible, 
+      # but usually required. We will rely on default expected paths or internal cert generation if available.
+    depends_on:
+      - wazuh.indexer
+      - wazuh.manager
+    networks:
+      - securock-net
+
+  # Mock Agent simulating a victim server (Ubuntu)
+  mock.agent:
+    image: wazuh/wazuh-agent:4.7.2
+    hostname: mock-agent
+    container_name: mock-agent
+    environment:
+      - WAZUH_MANAGER=wazuh.manager
+      - WAZUH_AGENT_NAME=mock-ubuntu
+    volumes:
+      # Mount a shared logs directory to simulate activity
+      - ./logs_mock:/var/log/simulated
+    networks:
+      - securock-net
+    depends_on:
+      - wazuh.manager
+
+volumes:
+  wazuh_indexer_data:
+  wazuh_manager_data:
+
+
+networks:
+  securock-net:
+    driver: bridge

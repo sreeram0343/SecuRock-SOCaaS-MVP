@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecuRock | SOC Dashboard</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/securock-theme.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a class="navbar-brand mb-5" href="index.html">
+                <i class="fas fa-shield-alt"></i>
+                SECU<span class="brand-text-highlight">ROCK</span>
+            </a>
+
+            <nav class="flex-grow-1">
+                <span class="text-secondary small fw-bold text-uppercase ls-1 ps-2 mb-2 d-block">Platform</span>
+                <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-chart-line"></i> Overview</a>
+                <a href="alerts.html" class="sidebar-link"><i class="fas fa-bell"></i> Alerts</a>
+                <a href="#" class="sidebar-link"><i class="fas fa-laptop-medical"></i> Agents</a>
+                <a href="#" class="sidebar-link"><i class="fas fa-network-wired"></i> Network</a>
+
+                <span class="text-secondary small fw-bold text-uppercase ls-1 ps-2 mb-2 d-block mt-4">Settings</span>
+                <a href="team.html" class="sidebar-link"><i class="fas fa-users-cog"></i> Team</a>
+                <a href="configuration.html" class="sidebar-link"><i class="fas fa-cog"></i> Configuration</a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="live-indicator"></div>
+                    <span class="small text-secondary fw-bold">SYSTEM ONLINE</span>
+                </div>
+                <a href="index.html" class="btn btn-outline-light btn-sm w-100"><i class="fas fa-sign-out-alt me-2"></i>
+                    Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="p-4" style="height: 100vh; overflow-y: auto;">
+
+            <!-- Topbar -->
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h2 class="fw-bold text-white mb-0">SOC Overview</h2>
+                    <p class="text-secondary mb-0">Real-time threat monitoring cluster.</p>
+                </div>
+
+                <div class="d-flex gap-3 align-items-center">
+                    <span class="badge glass-badge px-3 py-2">
+                        <i class="fas fa-building me-2"></i> <span id="orgName">Acme Corp</span>
+                    </span>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-light dropdown-toggle rounded-pill px-3" type="button"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> Admin
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">API Keys</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="metric-card p-4 rounded-4 h-100">
+                        <h6 class="text-secondary text-uppercase small fw-bold">System Health</h6>
+                        <h2 class="text-white mt-2 mb-0" id="sysStatus">NORMAL</h2>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-success" id="statusBar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="metric-card p-4 rounded-4 h-100">
+                        <h6 class="text-secondary text-uppercase small fw-bold">Avg Response Time</h6>
+                        <h2 class="text-white mt-2 mb-0 metric-value" id="responseMetric">0ms</h2>
+                        <span class="badge bg-info bg-opacity-25 text-info mt-2"><i class="fas fa-bolt me-1"></i> AI
+                            Optimized</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="metric-card p-4 rounded-4 h-100">
+                        <h6 class="text-secondary text-uppercase small fw-bold">Incidents (24h)</h6>
+                        <h2 class="text-white mt-2 mb-0 metric-value" id="incidentCount">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="metric-card p-4 rounded-4 h-100">
+                        <h6 class="text-secondary text-uppercase small fw-bold">Current Threat Level</h6>
+                        <h2 class="text-white mt-2 mb-0 metric-value" id="threatLevel">LOW</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Panel -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="panel-card p-4 rounded-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-white mb-0">Live Incident Feed</h5>
+                            <button class="btn btn-sm btn-outline-dark"><i class="fas fa-download me-1"></i> Export
+                                Log</button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Severity</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alertTableBody">
+                                    <!-- Populated by JS -->
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">Scanning for threats...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel-card p-4 rounded-4 h-100">
+                        <h5 class="fw-bold text-white mb-4">Automated Response Log</h5>
+                        <div id="responseLog" style="max-height: 400px; overflow-y: auto;"
+                            class="d-flex flex-column gap-3">
+                            <div class="alert alert-dark border-0 bg-dark bg-opacity-50 text-secondary small mb-0">
+                                <i class="fas fa-terminal me-2"></i> System monitor initialized...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- Dashboard Logic with Secured API Consumption ---
+
+        const POLLING_INTERVAL = 2000;
+        // Fix for local file opening vs served
+        const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:')
+            ? 'http://localhost:8000' : '';
+
+        // Check Auth
+        const token = localStorage.getItem('securock_token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        const user = JSON.parse(localStorage.getItem('securock_user'));
+        if (user && user.org) {
+            document.getElementById('orgName').innerText = user.org;
+        }
+
+        async function fetchStatus() {
+            try {
+                // Fetch Recent Alerts
+                const res = await fetch(`${API_BASE}/alerts?limit=10`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.status === 401) {
+                    console.warn("Session Expired");
+                    logout();
+                    return;
+                }
+
+                if (!res.ok) throw new Error("Failed to fetch alerts");
+                const alerts = await res.json();
+
+                // Fetch Stats (for accurate incident count)
+                const resStats = await fetch(`${API_BASE}/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!resStats.ok) throw new Error("Failed to fetch stats");
+                const stats = await resStats.json();
+
+                updateTable(alerts);
+                updateStats(stats, alerts);
+                updateLog(alerts);
+
+            } catch (err) {
+                console.warn("API Offline or Unreachable", err);
+            }
+        }
+
+        function updateTable(alerts) {
+            const tbody = document.getElementById('alertTableBody');
+            if (alerts.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">System Secure. No active threats.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = alerts.map(alert => `
+                <tr>
+                    <td>#${alert.id}</td>
+                    <td><span class="badge bg-${getSeverityColor(alert.severity)} bg-opacity-25 text-${getSeverityColor(alert.severity)}">${alert.severity}</span></td>
+                    <td>${alert.attack_type}</td>
+                    <td><span class="text-success"><i class="fas fa-check-circle me-1"></i> Mitigated</span></td>
+                    <td class="small text-secondary">${new Date(alert.timestamp).toLocaleTimeString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats(stats, alerts) {
+            // Update Incident Count & Response Time
+            document.getElementById('incidentCount').innerText = stats.total_incidents;
+            if (stats.avg_response_time) {
+                document.getElementById('responseMetric').innerText = stats.avg_response_time;
+            }
+
+            // Recency Check (5 seconds matching backend)
+            const now = new Date().getTime();
+            const lastAlert = alerts.length > 0 ? alerts[0] : null;
+            // 5000ms threshold
+            const isRecent = lastAlert ? (now - new Date(lastAlert.timestamp).getTime()) < 5000 : false;
+
+            // Logic vars
+            // We rely on backend 'critical_active' (now time-based) OR if the latest local alert is CRITICAL and very recent
+            const hasCritical = stats.critical_active > 0 || (lastAlert && lastAlert.severity === 'CRITICAL' && isRecent);
+            const hasAnyRecent = isRecent;
+
+            // 1. System Health (Status)
+            const sysStatus = document.getElementById('sysStatus');
+            const statusBar = document.getElementById('statusBar');
+
+            if (hasCritical) {
+                sysStatus.innerText = "UNSTABLE";
+                sysStatus.className = "text-danger mt-2 mb-0 animate__animated animate__pulse animate__infinite";
+                statusBar.className = "progress-bar bg-danger";
+            } else {
+                sysStatus.innerText = "NORMAL";
+                sysStatus.className = "text-success mt-2 mb-0";
+                statusBar.className = "progress-bar bg-success";
+                sysStatus.classList.remove('animate__animated', 'animate__pulse', 'animate__infinite');
+            }
+
+            // 2. Threat Level (Defcon Style)
+            const threatLevel = document.getElementById('threatLevel');
+            if (hasCritical) {
+                threatLevel.innerText = "CRITICAL";
+                threatLevel.className = "text-danger mt-2 mb-0 metric-value fw-bold animate__animated animate__pulse animate__infinite";
+            } else if (hasAnyRecent) {
+                threatLevel.innerText = "ELEVATED";
+                threatLevel.className = "text-warning mt-2 mb-0 metric-value";
+            } else {
+                threatLevel.innerText = "LOW";
+                threatLevel.className = "text-success mt-2 mb-0 metric-value";
+            }
+        }
+
+        function updateLog(alerts) {
+            const logDiv = document.getElementById('responseLog');
+            // We want to rebuild the log to be accurate, but avoid flicker. 
+            // For MVP simplicity, we'll just check if top log matches top alert.
+            // Better approach: Maintain a set of rendered IDs.
+
+            if (alerts.length === 0) return;
+
+            // Only grab alerts that have an action
+            const actionableAlerts = alerts.filter(a => a.action_taken && a.action_taken !== "MONITOR");
+
+            if (actionableAlerts.length === 0) return;
+
+            // Check if top alert is already handled
+            const latest = actionableAlerts[0];
+            // Simple dedupe check based on content, improved would use ID
+            const lastLogContent = logDiv.firstElementChild ? logDiv.firstElementChild.getAttribute('data-id') : null;
+
+            if (String(latest.id) !== lastLogContent) {
+                const newItem = document.createElement('div');
+                newItem.setAttribute('data-id', latest.id);
+                newItem.className = "alert alert-success border-0 bg-success bg-opacity-10 text-success small mb-0 animate__animated animate__fadeInLeft";
+
+                const timeStr = new Date(latest.timestamp).toLocaleTimeString();
+
+                newItem.innerHTML = `
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold"><i class="fas fa-shield-alt me-2"></i>Automated Response</span>
+                        <span class="opacity-75" style="font-size: 0.8em;">${timeStr}</span>
+                    </div>
+                    <div class="mb-1">Target: <span class="fw-bold text-white">Endpoint-01</span></div>
+                    <div>Action: <strong class="text-uppercase border-bottom border-success">${latest.action_taken}</strong></div>
+                    <div class="mt-1 opacity-75" style="font-size: 0.85em;">Threat: ${latest.attack_type}</div>
+                `;
+                logDiv.prepend(newItem);
+
+                // Keep log size manageable
+                if (logDiv.children.length > 10) {
+                    logDiv.lastElementChild.remove();
+                }
+            }
+        }
+
+        function getSeverityColor(sev) {
+            if (sev === 'CRITICAL') return 'danger';
+            if (sev === 'HIGH') return 'warning';
+            return 'info';
+        }
+
+        function logout() {
+            localStorage.removeItem('securock_token');
+            localStorage.removeItem('securock_user');
+            window.location.href = 'login.html';
+        }
+
+        // Bind Logout
+        document.querySelector('a[href="index.html"].btn-outline-light').addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+
+        // Bind Export Log Button
+        const exportBtn = document.querySelector('.btn-outline-dark');
+        if (exportBtn && exportBtn.innerText.includes('Export Log')) {
+            exportBtn.addEventListener('click', downloadCSV);
+        }
+
+        async function downloadCSV() {
+            try {
+                const res = await fetch(`${API_BASE}/alerts?limit=1000`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Failed to fetch data for export");
+                const alerts = await res.json();
+
+                if (alerts.length === 0) {
+                    alert("No logs to export.");
+                    return;
+                }
+
+                // Create CSV
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "ID,Severity,Attack Type,Details,Action Taken,Timestamp\n"; // Header
+
+                alerts.forEach(function (row) {
+                    // Escape commas in details
+                    const details = row.details ? row.details.replace(/,/g, " ") : "";
+                    const time = new Date(row.timestamp).toLocaleString();
+                    let rowStr = `${row.id},${row.severity},${row.attack_type},${details},${row.action_taken},${time}`;
+                    csvContent += rowStr + "\n";
+                });
+
+                // Download
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `securock_incident_log_${new Date().toISOString().slice(0, 10)}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+            } catch (err) {
+                console.error(err);
+                alert("Export failed. Check console.");
+            }
+        }
+
+        // Start Loop
+        fetchStatus();
+        setInterval(fetchStatus, POLLING_INTERVAL);
+
+    </script>
+</body>
+
+</html>

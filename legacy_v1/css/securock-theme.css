@@ -1,0 +1,416 @@
+/* SecuRock Global Theme - Neon Cyber Identity */
+:root {
+    /* Neon Brand Colors */
+    --brand-primary: #00A3FF;
+    /* Neon Blue */
+    --brand-accent: #00E0FF;
+    /* Neon Cyan */
+    --brand-deep: #0047FF;
+    /* Deep Electric Blue */
+
+    /* Backgrounds */
+    --bg-deep: #050B14;
+    /* Deepest Black-Blue */
+    --bg-card: #0F1729;
+    /* Dark Navy */
+    --bg-card-hover: #162035;
+    /* Lighter Navy */
+
+    /* Text */
+    --text-primary: #FFFFFF;
+    --text-secondary: #94A3B8;
+
+    /* Functional */
+    --success: #00FF94;
+    /* Neon Green */
+    --warning: #FFB800;
+    /* Neon Amber */
+    --danger: #FF2E2E;
+    /* Neon Red */
+
+    /* Effects */
+    --glow-primary: 0 0 20px rgba(0, 163, 255, 0.4);
+    --glow-accent: 0 0 15px rgba(0, 224, 255, 0.4);
+    --border-subtle: rgba(0, 224, 255, 0.15);
+    /* Subtle Cyan Border */
+    --glass-bg: rgba(15, 23, 41, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--bg-deep) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif;
+    /* Cyber Grid Background */
+    background-image:
+        linear-gradient(rgba(0, 224, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 224, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
+}
+
+/* Navbar */
+.navbar {
+    background-color: rgba(5, 11, 20, 0.85) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+/* Cyber Logo Branding */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800 !important;
+    letter-spacing: -1px;
+    color: white !important;
+    text-transform: uppercase;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    text-shadow: 0 0 20px rgba(0, 224, 255, 0.5);
+    transform: scale(1.02);
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+    margin-right: 0.75rem;
+    background: linear-gradient(135deg, #fff, var(--brand-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    filter: drop-shadow(0 0 8px rgba(0, 224, 255, 0.6));
+    animation: shield-pulse 3s infinite ease-in-out;
+}
+
+.navbar-brand .brand-text-highlight {
+    color: var(--brand-accent);
+}
+
+@keyframes shield-pulse {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 8px rgba(0, 163, 255, 0.6));
+        transform: scale(1);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 15px rgba(0, 224, 255, 0.9));
+        transform: scale(1.05);
+    }
+}
+
+/* Page Entrance Animation */
+body {
+    animation: fade-in-page 0.6s ease-out;
+}
+
+@keyframes fade-in-page {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.btn-primary-cta,
+.btn-primary {
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-deep)) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 0 15px rgba(0, 71, 255, 0.4) !important;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-primary-cta::before,
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s;
+}
+
+.btn-primary-cta:hover::before,
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-primary-cta:hover,
+.btn-primary:hover {
+    box-shadow: 0 0 25px rgba(0, 224, 255, 0.6) !important;
+    transform: translateY(-1px);
+    color: black !important;
+    /* High contrast on bright cyan */
+    font-weight: 700 !important;
+}
+
+.btn-outline-cta,
+.btn-outline-dark,
+.btn-outline-light {
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--brand-accent) !important;
+    background: rgba(0, 224, 255, 0.05) !important;
+}
+
+.btn-outline-cta:hover,
+.btn-outline-dark:hover,
+.btn-outline-light:hover {
+    border-color: var(--brand-accent) !important;
+    background: rgba(0, 224, 255, 0.15) !important;
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.2) !important;
+    color: white !important;
+}
+
+/* Cards & Containers - Glassmorphism */
+.card,
+.pricing-card,
+.feature-item,
+.panel-card,
+.metric-card,
+.auth-card,
+.trial-card {
+    background-color: var(--glass-bg) !important;
+    background-image: none !important;
+    /* Kill legacy gradients */
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-primary) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* --- Dashboard Specifics --- */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background-color: var(--glass-bg);
+    border-right: 1px solid var(--border-subtle);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background: rgba(0, 163, 255, 0.1);
+    color: var(--brand-accent);
+    box-shadow: 0 0 10px rgba(0, 163, 255, 0.1);
+}
+
+.sidebar-link i {
+    width: 24px;
+    margin-right: 10px;
+}
+
+.live-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: var(--success);
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 10px var(--success);
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 148, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(0, 255, 148, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 148, 0);
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+        /* Mobile sidebar toggling is complex, keeping simple for now */
+    }
+}
+
+
+.card:hover,
+.pricing-card:hover,
+.feature-item:hover,
+.metric-card:hover {
+    border-color: var(--brand-accent) !important;
+    box-shadow: 0 0 20px rgba(0, 163, 255, 0.2) !important;
+}
+
+/* Typography Gradient */
+.text-gradient {
+    background: linear-gradient(to right, var(--brand-accent), var(--brand-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-title span {
+    background: linear-gradient(to right, #ffffff, var(--brand-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(0, 224, 255, 0.3);
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: white !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand-accent) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.2) !important;
+}
+
+/* Dashboard Specifics */
+.sidebar {
+    background-color: rgba(5, 11, 20, 0.95) !important;
+    border-right: 1px solid var(--border-subtle) !important;
+}
+
+.metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 10px currentColor;
+    /* Glowing numbers */
+}
+
+/* Badges */
+.badge-soft-primary {
+    background-color: rgba(0, 163, 255, 0.15);
+    color: var(--brand-accent);
+    border: 1px solid rgba(0, 163, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 163, 255, 0.1);
+}
+
+.glass-badge {
+    color: var(--brand-accent) !important;
+}
+
+/* --- Fixes for Dark Mode Visibility --- */
+
+/* Force table background to be dark/transparent */
+.table-custom {
+    background-color: var(--glass-bg) !important;
+    color: white !important;
+}
+
+/* Ensure table cells have transparent backgrounds so glass effect shows */
+.table-custom td,
+.table-custom th {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: var(--border-subtle) !important;
+}
+
+/* Header text color override */
+.table-custom th {
+    color: var(--brand-accent) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Hover effect */
+.table-custom tr:hover td {
+    background-color: rgba(0, 224, 255, 0.05) !important;
+}
+
+/* Pricing Tag - Was dark on dark */
+.price-tag {
+    color: white !important;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.price-period {
+    color: var(--text-secondary) !important;
+}
+
+/* Overriding Bootstrap text colors that are too dark */
+.text-secondary,
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+.text-dark {
+    color: white !important;
+    /* Force "text-dark" classes (like links) to be white in this theme */
+}
+
+.bg-light {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    /* Make "light" backgrounds transparent/glassy */
+    color: white !important;
+}
+
+
+/* --- Utilities for Interactivity --- */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hover-highlight:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    transition: background-color 0.2s;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

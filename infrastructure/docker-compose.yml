@@ -1,0 +1,227 @@
+services:
+  # --- INFRASTRUCTURE SERVICES ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: securock_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - securock-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  wazuh.indexer:
+    image: wazuh/wazuh-indexer:4.7.2
+    hostname: wazuh.indexer
+    container_name: wazuh.indexer
+    ports:
+      - "9200:9200"
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=${ES_JAVA_OPTS}"
+      - "discovery.type=single-node"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=false"
+    volumes:
+      - wazuh_indexer_data:/var/lib/wazuh-indexer
+      - ./certs:/usr/share/wazuh-indexer/certs
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - securock-net
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -k -u admin:admin https://localhost:9200 || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  wazuh.manager:
+    image: wazuh/wazuh-manager:4.7.2
+    hostname: wazuh.manager
+    container_name: wazuh.manager
+    ports:
+      - "1514:1514"
+      - "1515:1515"
+      - "55000:55000"
+    environment:
+      - INDEXER_URL=https://wazuh.indexer:9200
+      - INDEXER_USERNAME=${OPENSEARCH_USER}
+      - INDEXER_PASSWORD=${OPENSEARCH_PASSWORD}
+    volumes:
+      - wazuh_manager_data:/var/ossec/data
+      - ./certs:/var/ossec/etc/certs
+    depends_on:
+      - wazuh.indexer
+    networks:
+      - securock-net
+
+  wazuh.dashboard:
+    image: wazuh/wazuh-dashboard:4.7.2
+    hostname: wazuh.dashboard
+    container_name: wazuh.dashboard
+    ports:
+      - "5601:5601"
+    environment:
+      - INDEXER_URL=https://wazuh.indexer:9200
+      - INDEXER_USERNAME=${OPENSEARCH_USER}
+      - INDEXER_PASSWORD=${OPENSEARCH_PASSWORD}
+      - WAZUH_API_URL=https://wazuh.manager:55000
+      - WAZUH_API_USERNAME=wazuh
+      - WAZUH_API_PASSWORD=wazuh
+    depends_on:
+      - wazuh.indexer
+      - wazuh.manager
+    networks:
+      - securock-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: securock_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - securock-net
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- BACKEND SERVICES ---
+  # --- BACKEND SERVICES ---
+  backend_api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: securock_backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      OPENSEARCH_URL: https://wazuh.indexer:9200
+      OPENSEARCH_USER: ${OPENSEARCH_USER}
+      OPENSEARCH_PASSWORD: ${OPENSEARCH_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      wazuh.indexer:
+        condition: service_healthy
+    networks:
+      - securock-net
+
+  backend_worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: securock_worker
+    command: [ "python", "-m", "app.workers.log_processor" ]
+    environment:
+      REDIS_URL: ${REDIS_URL}
+      OPENSEARCH_URL: https://wazuh.indexer:9200
+      OPENSEARCH_USER: ${OPENSEARCH_USER}
+      OPENSEARCH_PASSWORD: ${OPENSEARCH_PASSWORD}
+    depends_on:
+      redis:
+        condition: service_healthy
+      wazuh.indexer:
+        condition: service_healthy
+    networks:
+      - securock-net
+
+  # --- FRONTEND ---
+  frontend:
+    build:
+      context: ../frontend
+    container_name: securock_frontend
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - securock-net
+
+  # --- GATEWAY ---
+  nginx:
+    image: nginx:alpine
+    container_name: securock_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend_api # Fixed dependency name from 'auth_service' to 'backend_api' as per actual service name
+      - frontend
+      # - ingestion_service # Cleaned up non-existent dependencies
+      # - alert_service
+    networks:
+      - securock-net
+
+  # --- DATA INGESTION ---
+  logstash:
+    image: opensearchproject/logstash-oss-with-opensearch-output-plugin:latest
+    container_name: securock_logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      OPENSEARCH_USER: ${OPENSEARCH_USER}
+      OPENSEARCH_PASSWORD: ${OPENSEARCH_PASSWORD}
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - redis
+      - wazuh.indexer
+    networks:
+      - securock-net
+
+  # --- OBSERVABILITY ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: securock_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - securock-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: securock_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - securock-net
+
+networks:
+  securock-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  wazuh_indexer_data:
+  wazuh_manager_data:
+  prometheus_data:
+  grafana_data:

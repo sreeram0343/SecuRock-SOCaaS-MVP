@@ -1,0 +1,129 @@
+version: '3.8'
+
+services:
+  # -------------------------
+  # BACKEND API
+  # -------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: securock-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://securock:supersecretpassword@db:5432/securock
+      - REDIS_URL=redis://redis:6379/0
+      - OPENSEARCH_URL=https://opensearch:9200
+      - SECRET_KEY=${SECRET_KEY:-supersecretkey}
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+    depends_on:
+      - db
+      - redis
+      - opensearch
+    networks:
+      - securock-net
+
+  # -------------------------
+  # FRONTEND (Vite / Nginx)
+  # -------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: securock-frontend
+    restart: always
+    ports:
+      - "5173:5173" # Dev mode, for prod use Nginx on 80
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - securock-net
+
+  # -------------------------
+  # WORKER (Log Processor)
+  # -------------------------
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: securock-worker
+    command: python -m app.workers.log_processor
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://securock:supersecretpassword@db:5432/securock
+      - REDIS_URL=redis://redis:6379/0
+      - OPENSEARCH_URL=https://opensearch:9200
+    depends_on:
+      - db
+      - redis
+      - opensearch
+    networks:
+      - securock-net
+
+  # -------------------------
+  # POSTGRES DATABASE
+  # -------------------------
+  db:
+    image: postgres:15-alpine
+    container_name: securock-db
+    restart: always
+    environment:
+      - POSTGRES_USER=securock
+      - POSTGRES_PASSWORD=supersecretpassword
+      - POSTGRES_DB=securock
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - securock-net
+
+  # -------------------------
+  # REDIS (Queue/Cache)
+  # -------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: securock-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - securock-net
+
+  # -------------------------
+  # OPENSEARCH (Logs)
+  # -------------------------
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: securock-opensearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - DISABLE_SECURITY_PLUGIN=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - securock-net
+
+networks:
+  securock-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  opensearch_data:

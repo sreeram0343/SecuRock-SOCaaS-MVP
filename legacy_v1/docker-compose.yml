@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/database.db:/app/backend/database.db
+    environment:
+      - SECRET_KEY=prod-secret-change-me
+    restart: always
+
+  # Simulation Agent (Optional, run manually or here)
+  # agent:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: python agent/agent.py
+  #   depends_on:
+  #     - backend

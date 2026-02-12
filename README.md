@@ -1,84 +1,84 @@
-# SecuRock: Automated SOC as a Service (SOCaaS)
 
-**Hackathon MVP** - Real-time endpoint monitoring, automated threat detection, and autonomous response.
+# SecuRock SOC - AI-Powered Security Operations Center
+
+SecuRock's SOC is a completely AI-powered Security Operations Center as a Service. It is a lightweight, cloud-based, next-gen SOC system designed to detect, alert, and respond to all types of cyber attacks.
 
 ## Features
-- **Real-Time Telemetry**: Agent sends CPU & Process structure every 5s.
-- **Automated Detection**: Detects High CPU Usage (>80%) + Suspicious Activity.
-- **Autonomous Response**: Automatically "Isolates" system upon high severity threat.
-- **Live SOC Dashboard**: Dark-themed UI with real-time alerts.
-- **Incident Reporting**: Auto-generates professional incident reports.
 
-## Prerequisites
-- Python 3.9+
-- Pip
+- **Multi-Tenant Architecture**: Organization-based data isolation.
+- **Real-Time Dashboard**: Live alerts and incident tracking.
+- **AI-Powered Detection**: Isolation Forest model for anomaly detection.
+- **Incident Management**: Kanban-style incident board.
+- **Automated Response**: Playbook system for rule-based actions.
 
-## Deployment Framework (Hybrid Architecture)
-This project is designed for a **Hybrid Demo Deployment**:
-- **Frontend** (Dashboard): Hosted publicly on **GitHub Pages**.
-- **Backend & Agent**: Hosted locally on your laptop (`localhost`).
-- **Telemetry**: The public dashboard fetches data from your local backend via browser-side `fetch()` requests (CORS enabled).
+## Tech Stack
 
-### 1. Web Deployment (GitHub Pages)
-1. Push this code to GitHub.
-2. Go to **Settings > Pages**.
-3. Set **Source** to `main` branch and `/root` folder.
-4. Your SOC Dashboard is now live at `https://<username>.github.io/<repo-name>`.
+- **Backend**: FastAPI, Async PostgreSQL, SQLAlchemy, Pydantic, Redis.
+- **Frontend**: React 18, Vite, TypeScript, TailwindCSS, Zustand.
+- **ML**: Scikit-Learn, Pandas.
+- **Infrastructure**: Docker, Nginx.
 
-### 2. Local Backend Run
-You MUST keep the backend running on your laptop for the dashboard to show data.
+## Quick Start (Automated)
+
+The easiest way to get started is using the installation script:
+
 ```bash
-uvicorn backend.main:app --reload
+./install.sh
 ```
-*The public dashboard will connect to this local instance automatically.*
+This will check for Docker, generate a `.env` file, and start all services.
 
-## How to Run the Demo
+## Manual Run Instructions
 
-You will need **3 separate terminal windows**.
+### 1. Prerequisites
+-   **Docker & Docker Compose** (Recommended for full stack)
+-   **Python 3.10+** (For local backend/AI)
+-   **Node.js 18+** (For local frontend)
 
-### Terminal 1: Backend (SOC Server)
-**IMPORTANT: Run this from the `SecuRock` root directory.**  
-*(Do NOT `cd backend` before running this)*
+### 2. Run with Docker (Production-Ready)
+To run the full stack (Backend, Frontend, DB, Redis, OpenSearch, Worker):
 
-Start the FastApi backend logic engine:
 ```bash
-uvicorn backend.main:app --reload
+docker-compose up -d --build
 ```
-*Server will start at `http://127.0.0.1:8000`*
+-   **Dashboard**: [http://localhost:5173](http://localhost:5173)
+-   **API**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### Terminal 2: Dashboard
-Simply open the `dashboard/index.html` file in your browser.
-- You can double-click it in File Explorer.
-- The dashboard will show "SAFE" status initially.
+### 3. Local Development
 
-### Terminal 3: Endpoint Agent
-Start the monitoring agent:
+#### Backend & AI Services
 ```bash
-python agent/agent.py
+cd backend
+# Install dependencies
+pip install -r requirements.txt
+pip install langchain-experimental # For AI Analyst
+
+# Run Database (if not using Docker)
+# Or configure valid DATABASE_URL in .env
+
+# Start API
+uvicorn app.main:app --reload --port 8000
 ```
-*The agent will start sending data.*
 
-## Demo Procedure (10 Seconds)
+#### Frontend Dashboard
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-1. **Observe**: Dashboard shows "SAFE" and receives regular heartbeat logs.
-## Demo Procedure
+### 4. Special Features
 
-1. **Observe**: Dashboard shows "SAFE".
-2. **Trigger Attacks** (Focus on Agent Terminal):
-    - **Press A**: Simulates **Crypto Miner**.
-        - *Watch Dashboard*: "Crypto Mining Attack" alert. System throttles CPU.
-    - **Press B**: Simulates **Trojan**.
-        - *Watch Dashboard*: "Trojan Execution" alert. System kills process.
-    - **Press E**: Simulates **Ransomware**.
-        - *Watch Dashboard*: "Ransomware Behavior" alert. System locks filesystem.
-    - **Press S**: **Safety Switch**. Instantly stops all simulations and resets state.
-3. **Download Report**: Go to dashboard and click "Download" to save the incident log.
+#### AI Analyst (NLP-to-SQL)
+Query your security data using natural language.
+1.  **Setup**: `python backend/ai_analyst_setup.py` (Seeds sample data if DB is empty)
+2.  **Run**: `python backend/ai_analyst_poc.py` (Requires `OPENAI_API_KEY`)
 
-## Troubleshooting
-- **Lovable / GitHub Pages "OFFLINE"**: 
-  - If hosting online but connecting to localhost, your browser might block "Mixed Content" (HTTPS -> HTTP).
-  - **Fix**: Click the **Shield/Lock Icon** in your browser URL bar > **Site Settings** > **Allow Insecure Content** (or "Disable Protection for this site").
-- **No Data?**: Ensure Backend is running before Agent.
-- **Port In Use?**: Kill existing python processes or change port in `main.py`.
-- **Git Error?**: Install Git from [git-scm.com](https://git-scm.com).
+#### Real-time Attack Map
+-   Navigate to the **Overview** page on the dashboard.
+-   The map visualizes live threats (mock data in dev, real IPs in prod).
 
+## API Documentation
+Once backend is running, visit: `http://localhost:8000/docs`
+
+## Licensing
+Proprietary - SecuRock Inc.

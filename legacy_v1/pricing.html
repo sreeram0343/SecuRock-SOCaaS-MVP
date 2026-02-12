@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | SecuRock</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0B5ED7;
+            --primary-dark: #1f6feb;
+            --dark-bg: #0F172A;
+            --card-bg: #1E293B;
+            --text-light: #f0f6fc;
+            --text-muted: #9CA3AF;
+            --accent-orange: #F97316;
+            --accent-yellow: #FACC15;
+            --success: #22C55E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            backdrop-filter: blur(10px);
+            background-color: white;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .navbar-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #0d1117 !important;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+        }
+
+        /* Header */
+        .pricing-header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 100px 0 150px;
+            text-align: center;
+            /* Simple pattern */
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Cards */
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: var(--primary);
+        }
+
+        /* Premium Card Specifics */
+        .pricing-card.premium {
+            border: 2px solid var(--primary);
+            background: linear-gradient(to bottom, #eff6ff, white);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(11, 94, 215, 0.3);
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #111827;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .feature-list {
+            margin: 2rem 0;
+            flex-grow: 1;
+        }
+
+        .feature-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+        }
+
+        .feature-list i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .btn-plan {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-basic {
+            background-color: white;
+            border: 2px solid #e2e8f0;
+            color: #1f2937;
+        }
+
+        .btn-basic:hover {
+            border-color: #94a3b8;
+            background-color: #f8fafc;
+        }
+
+        .btn-premium {
+            background-color: var(--primary);
+            color: white;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(11, 94, 215, 0.2);
+        }
+
+        .btn-premium:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: white;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 80px 0;
+            background-color: transparent;
+        }
+
+        .table-custom th {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .table-custom td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .table-custom tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .check-icon {
+            color: var(--success);
+        }
+
+        .cross-icon {
+            color: #e2e8f0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--text-muted);
+            padding: 3rem 0;
+        }
+    </style>
+    <link rel="stylesheet" href="css/securock-theme.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-shield-alt"></i>
+                SECU<span class="brand-text-highlight">ROCK</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-medium" href="index.html#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-bold text-primary" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-dark btn-sm px-4 rounded-pill" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pricing-header">
+        <div class="container">
+            <span
+                class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill mb-3">CLEAN
+                & TRANSPARENT PRICING</span>
+            <h1 class="display-4 fw-bold mb-3">Security that scales with you</h1>
+            <p class="lead text-secondary mx-auto" style="max-width: 600px;">
+                Choose the perfect plan for your organization's security needs. No hidden fees. Setup in minutes.
+            </p>
+        </div>
+    </header>
+
+    <!-- Pricing Cards (Negative Margin to overlap header) -->
+    <div class="container" style="margin-top: -80px;">
+        <div class="row g-4 justify-content-center">
+
+            <!-- Basic Plan -->
+            <div class="col-lg-5 col-md-6">
+                <div class="pricing-card">
+                    <div class="text-start">
+                        <h4 class="fw-bold text-secondary">Basic Security Plan</h4>
+                        <div class="price-tag">₹4,999<span class="price-period">/mo</span></div>
+                        <p class="text-muted small border-bottom pb-4">Essential monitoring for small teams.</p>
+                    </div>
+
+                    <ul class="list-unstyled feature-list">
+                        <li><i class="fas fa-check text-success"></i> Real-time system monitoring</li>
+                        <li><i class="fas fa-check text-success"></i> Basic anomaly detection</li>
+                        <li><i class="fas fa-check text-success"></i> Email alert notifications</li>
+                        <li><i class="fas fa-check text-success"></i> Limited dashboard analytics</li>
+                        <li><i class="fas fa-check text-success"></i> Single organization support</li>
+                        <li><i class="fas fa-info-circle text-muted"></i> Community support</li>
+                    </ul>
+
+                    <a href="trial.html?plan=basic" class="btn btn-basic">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="col-lg-5 col-md-6">
+                <div class="pricing-card premium">
+                    <div class="recommended-badge">MOST POPULAR</div>
+                    <div class="text-start">
+                        <h4 class="fw-bold text-primary">Premium Security Plan</h4>
+                        <div class="price-tag">₹12,999<span class="price-period">/mo</span></div>
+                        <p class="text-muted small border-bottom pb-4">Full-scale automated defense.</p>
+                    </div>
+
+                    <ul class="list-unstyled feature-list">
+                        <li><i class="fas fa-check text-success"></i> <strong>Automated Incident Response</strong></li>
+                        <li><i class="fas fa-check text-success"></i> <strong>Real-time SOC dashboard</strong></li>
+                        <li><i class="fas fa-check text-success"></i> Advanced behavior detection</li>
+                        <li><i class="fas fa-check text-success"></i> Endpoint isolation automation</li>
+                        <li><i class="fas fa-check text-success"></i> Priority alert processing</li>
+                        <li><i class="fas fa-check text-success"></i> Detailed incident reports</li>
+                        <li><i class="fas fa-check text-success"></i> Multi-device monitoring</li>
+                        <li><i class="fas fa-crown text-warning"></i> Priority 24/7 support</li>
+                    </ul>
+
+                    <a href="trial.html?plan=premium" class="btn btn-premium">Get Premium</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold text-white">Compare Plans</h3>
+                <p class="text-muted">Detailed feature breakdown</p>
+            </div>
+
+            <div class="table-responsive rounded-4 shadow-sm border">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-50 ps-4">Feature</th>
+                            <th scope="col" class="text-center">Basic</th>
+                            <th scope="col" class="text-center text-primary border-primary border-bottom-0">
+                                Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4 fw-bold">Automated Response</td>
+                            <td class="text-center"><i class="fas fa-times cross-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check-circle check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 fw-bold">Real-Time Dashboard</td>
+                            <td class="text-center"><i class="fas fa-times cross-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check-circle check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Threat Intelligence Feed</td>
+                            <td class="text-center"><i class="fas fa-times cross-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check-circle check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Monitoring Level</td>
+                            <td class="text-center text-muted">Limited</td>
+                            <td class="text-center fw-bold text-info">Advanced Deep Scan</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Support Level</td>
+                            <td class="text-center text-muted">Standard</td>
+                            <td class="text-center fw-bold text-info">Priority (24/7)</td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Reporting</td>
+                            <td class="text-center text-muted">Monthly Summary</td>
+                            <td class="text-center fw-bold text-info">Live Incident Reports</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="footer-brand mb-3 text-white">
+                        <i class="fas fa-shield-alt text-primary me-2"></i>SECUROCK
+                    </div>
+                    <p class="small opacity-75">
+                        The next generation of automated cybersecurity defense platform. Protecting enterprises
+                        globally.
+                    </p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6 class="fw-bold text-white mb-3">Product</h6>
+                    <ul class="list-unstyled small opacity-75">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Features</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Pricing</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Integrations</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6 class="fw-bold text-white mb-3">Resources</h6>
+                    <ul class="list-unstyled small opacity-75">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Documentation</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">API</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Community</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold text-white mb-3">Stay Secure</h6>
+                    <p class="small opacity-75">Subscribe to our threat intelligence newsletter.</p>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control bg-dark border-secondary text-light"
+                            placeholder="Email address">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center small opacity-50">
+                &copy; 2026 SecuRock Inc. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecuRock | Automated Cyber Defense Platform</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/securock-theme.css">
+
+    <style>
+        .hero-section {
+            position: relative;
+            min-height: 140vh;
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--bg-deep);
+            padding-bottom: 5rem;
+        }
+
+        /* Mount point for Aether Flow Shader */
+        #heroCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            position: fixed;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            padding-top: 25vh;
+            /* Changed from center to default (left) for row alignment */
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-align: left;
+            /* Explicit Left Alignment */
+        }
+
+        .hero-title span {
+            background: linear-gradient(to right, #60A5FA, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        @media (min-width: 992px) {
+            .hero-title {
+                font-size: 5.5rem;
+            }
+        }
+
+        .hero-lead {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        /* Glassmorphism Badge */
+        .glass-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--brand-accent);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Scroll Animation Container */
+        .scroll-container {
+            margin-top: 8rem;
+            width: 100%;
+            perspective: 1000px;
+            padding: 0 1rem;
+        }
+
+        .scroll-card {
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #0F172A;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .dashboard-preview-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-shield-alt"></i>
+                SECU<span class="brand-text-highlight">ROCK</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-light fw-medium" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light fw-medium" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-light btn-sm px-4 rounded-pill" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary-cta btn-sm px-4 rounded-pill" href="pricing.html">Start Free Trial</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <!-- Aether Flow Canvas -->
+        <div id="heroCanvas"></div>
+
+        <div class="container hero-overlay">
+            <div class="row align-items-center">
+                <!-- Wrapper for Left Alignment -->
+                <div class="col-lg-10">
+                    <div class="animate__animated animate__fadeInUp">
+
+                        <!-- Trust / Tagline Badge -->
+                        <div class="glass-badge">
+                            <i class="fas fa-bolt me-2 text-warning"></i>
+                            WHERE INNOVATION MEETS SECURITY
+                        </div>
+
+                        <h1 class="hero-title">
+                            Autonomous Cyber<br>
+                            <span>Defense Platform.</span>
+                        </h1>
+
+                        <p class="hero-lead">
+                            SecuRock replaces manual monitoring with active defense.
+                            Real-time threat detection, AI-driven incident response, and unified security monitoring.
+                        </p>
+
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="pricing.html" class="btn btn-primary-cta rounded-pill px-5 py-3 fw-bold">
+                                Start Free Trial <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            <a href="#about" class="btn btn-outline-light rounded-pill px-5 py-3 fw-bold">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Animation Container -->
+            <div class="scroll-container d-flex justify-content-center">
+                <div class="scroll-card" style="max-width: 1200px;">
+                    <!-- Dashboard Preview Image -->
+                    <!-- Used a tech/dashboard abstract image to represent the UI -->
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2670&q=80"
+                        alt="SecuRock Dashboard Preview" class="dashboard-preview-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5"
+        style="background-color: var(--bg-deep); z-index: 2; position: relative;">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <!-- Tech Illustration -->
+                    <div class="p-4 rounded-4"
+                        style="background: linear-gradient(45deg, rgba(59,130,246,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                            alt="Digital Security" class="img-fluid rounded-3 shadow-lg opacity-75"
+                            style="mix-blend-mode: luminosity;">
+                    </div>
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <span class="text-info fw-bold text-uppercase small letter-spacing-2">Why SecuRock</span>
+                    <h2 class="display-5 fw-bold text-white mb-4">Autonomous Defense</h2>
+                    <p class="text-secondary lead mb-4">
+                        SecuRock replaces manual monitoring with active defense. We combine real-time detection with
+                        automated protocols to neutralize threats milliseconds after detection.
+                    </p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-start">
+                            <div class="bg-primary bg-opacity-25 p-3 rounded-circle me-3">
+                                <i class="fas fa-bolt text-primary fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-white mb-1">Instant Response</h5>
+                                <p class="text-secondary small mb-0">Isolate endpoints instantly. No human delay.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="bg-info bg-opacity-25 p-3 rounded-circle me-3">
+                                <i class="fas fa-eye text-info fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-white mb-1">Deep Visibility</h5>
+                                <p class="text-secondary small mb-0">Full spectrum telemetry across cloud and on-prem.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="bg-success bg-opacity-25 p-3 rounded-circle me-3">
+                                <i class="fas fa-lock text-success fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-white mb-1">Compliance Ready</h5>
+                                <p class="text-secondary small mb-0">Built-in audit trails for SOC2, HIPAA, and GDPR.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border-subtle);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="footer-brand mb-3 text-white fw-bold">
+                        <i class="fas fa-shield-alt text-primary me-2"></i>SECUROCK
+                    </div>
+                    <p class="small text-secondary">
+                        The world's leading autonomous SOC platform.
+                    </p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h6 class="fw-bold text-white mb-3">Product</h6>
+                    <ul class="list-unstyled small text-secondary">
+                        <li class="mb-2"><a href="#"
+                                class="text-decoration-none text-secondary hover-white">Features</a></li>
+                        <li class="mb-2"><a href="pricing.html"
+                                class="text-decoration-none text-secondary hover-white">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mb-4 text-md-end">
+                    <p class="small text-secondary">&copy; 2026 SecuRock Security Inc.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Three.js (Required for Aether Flow) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Animation Scripts -->
+    <script src="js/aether-flow.js"></script>
+    <script src="js/scroll-animation.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Init Aether Flow on the container
+            initAetherFlow('heroCanvas');
+        });
+    </script>
+</body>
+
+</html>

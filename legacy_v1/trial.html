@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Free Trial | SecuRock</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6f8fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .trial-card {
+            background: white;
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: #57606a;
+        }
+
+        .step-indicator .step {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+            opacity: 0.5;
+        }
+
+        .step-indicator .step.active {
+            color: #0d1117;
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #eaeef2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 0.75rem;
+        }
+
+        .step.active .step-circle {
+            background-color: #0969da;
+            color: white;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 0.75rem;
+            border-radius: 6px;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: white;
+            border-color: #0969da;
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+        }
+
+        .btn-activate {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 600;
+            background-color: #2da44e;
+            border: 1px solid rgba(27, 31, 36, 0.15);
+            color: white;
+            border-radius: 6px;
+            margin-top: 2rem;
+            font-size: 1rem;
+        }
+
+        .btn-activate:hover {
+            background-color: #2c974b;
+            color: white;
+        }
+
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+<link rel="stylesheet" href="css/securock-theme.css"></head>
+
+<body>
+
+    <div class="trial-card">
+        <div class="step-indicator">
+            <div class="step active">
+                <div class="step-circle"><i class="fas fa-check"></i></div> Account
+            </div>
+            <div class="step active">
+                <div class="step-circle"><i class="fas fa-check"></i></div> Plan
+            </div>
+            <div class="step active">
+                <div class="step-circle">3</div> Activate
+            </div>
+        </div>
+
+        <h3 class="fw-bold mb-4 text-center">Activate Free Trial</h3>
+        <p class="text-muted text-center mb-4">Finalize your SOC environment configuration.</p>
+
+        <form id="trialForm">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label for="plan" class="form-label">Selected Plan</label>
+                    <input type="text" class="form-control bg-light fw-bold text-primary" id="plan" readonly
+                        value="Basic Security Plan">
+                </div>
+                <div class="col-md-6">
+                    <label for="companyName" class="form-label">Company Name</label>
+                    <input type="text" class="form-control" id="companyName" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="industry" class="form-label">Industry Type</label>
+                    <select class="form-select" id="industry" required>
+                        <option value="" selected disabled>Select...</option>
+                        <option>Technology</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>Government</option>
+                        <option>Retail</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="devices" class="form-label">Number of Devices</label>
+                    <select class="form-select" id="devices" required>
+                        <option>1 - 50</option>
+                        <option>51 - 200</option>
+                        <option>201 - 1000</option>
+                        <option>1000+</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="country" required>
+                </div>
+                <div class="col-12">
+                    <label for="email" class="form-label">Confirmation Email</label>
+                    <input type="email" class="form-control" id="email" required readonly>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-activate" id="submitBtn">
+                <i class="fas fa-rocket me-2"></i>Activate Free Trial
+            </button>
+        </form>
+    </div>
+
+    <!-- Success Overlay -->
+    <div id="successOverlay" class="success-overlay">
+        <div class="text-center animate__animated animate__fadeInUp">
+            <div class="mb-4 text-success" style="font-size: 5rem;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="fw-bold mb-3 success-msg">Trial Activated Successfully!</h2>
+            <p class="text-muted mb-4">Redirecting to SOC Dashboard...</p>
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check session
+        const userStr = localStorage.getItem('securock_user');
+        if (!userStr) {
+            window.location.href = 'login.html';
+        }
+
+        const userData = JSON.parse(userStr || '{}');
+
+        // Auto-fill from Session
+        if (userData.org) document.getElementById('companyName').value = userData.org;
+        if (userData.email) document.getElementById('email').value = userData.email;
+
+        // Auto-fill Plan from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const planParam = urlParams.get('plan');
+        const planInput = document.getElementById('plan');
+
+        if (planParam === 'premium') {
+            planInput.value = "Premium Security Plan (₹12,999/mo)";
+            planInput.classList.add('border-primary', 'text-primary');
+        } else {
+            planInput.value = "Basic Security Plan (₹4,999/mo)";
+        }
+
+        document.getElementById('trialForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show loading state on button
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Activating...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const overlay = document.getElementById('successOverlay');
+                overlay.style.display = 'flex';
+
+                setTimeout(() => {
+                    // Update User Data
+                    const user = JSON.parse(localStorage.getItem('securock_user') || '{}');
+                    user.trial_active = true;
+                    user.plan = planParam || 'basic';
+                    user.org = document.getElementById('companyName').value;
+                    localStorage.setItem('securock_user', JSON.stringify(user));
+
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

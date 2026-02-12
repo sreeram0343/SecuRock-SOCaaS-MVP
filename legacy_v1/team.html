@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecuRock | Team Management</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="css/securock-theme.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a class="navbar-brand mb-5" href="index.html">
+                <i class="fas fa-shield-alt"></i>
+                SECU<span class="brand-text-highlight">ROCK</span>
+            </a>
+            <nav class="flex-grow-1">
+                <span class="text-secondary small fw-bold text-uppercase ls-1 ps-2 mb-2 d-block">Platform</span>
+                <a href="dashboard.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Overview</a>
+                <a href="#" class="sidebar-link"><i class="fas fa-bell"></i> Alerts</a>
+                <a href="#" class="sidebar-link"><i class="fas fa-laptop-medical"></i> Agents</a>
+                <a href="#" class="sidebar-link"><i class="fas fa-network-wired"></i> Network</a>
+                <span class="text-secondary small fw-bold text-uppercase ls-1 ps-2 mb-2 d-block mt-4">Settings</span>
+                <a href="team.html" class="sidebar-link active"><i class="fas fa-users-cog"></i> Team</a>
+                <a href="configuration.html" class="sidebar-link"><i class="fas fa-cog"></i> Configuration</a>
+            </nav>
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="live-indicator"></div>
+                    <span class="small text-secondary fw-bold">SYSTEM ONLINE</span>
+                </div>
+                <a href="index.html" class="btn btn-outline-light btn-sm w-100"><i class="fas fa-sign-out-alt me-2"></i>
+                    Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="p-4" style="height: 100vh; overflow-y: auto;">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h2 class="fw-bold text-white mb-0">Team Management</h2>
+                    <p class="text-secondary mb-0">Manage access and roles for your SOC team.</p>
+                </div>
+            </div>
+
+            <!-- Team List -->
+            <div class="panel-card p-4 rounded-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-white mb-0">Members</h5>
+                    <button class="btn btn-primary-cta btn-sm"><i class="fas fa-plus me-2"></i> Invite User</button>
+                </div>
+                <table class="table table-custom">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Last Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white me-3"
+                                        style="width: 32px; height: 32px;">A</div>
+                                    <span class="text-white">Admin User</span>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-danger bg-opacity-25 text-danger">Owner</span></td>
+                            <td><span class="text-success"><i class="fas fa-dot-circle me-1"></i> Active</span></td>
+                            <td class="text-secondary small">Just now</td>
+                            <td><button class="btn btn-sm btn-outline-secondary"><i
+                                        class="fas fa-ellipsis-h"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-info rounded-circle d-flex align-items-center justify-content-center text-white me-3"
+                                        style="width: 32px; height: 32px;">J</div>
+                                    <span class="text-white">John Analyst</span>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-info bg-opacity-25 text-info">Analyst</span></td>
+                            <td><span class="text-secondary"><i class="fas fa-dot-circle me-1"></i> Offline</span></td>
+                            <td class="text-secondary small">2 hours ago</td>
+                            <td><button class="btn btn-sm btn-outline-secondary"><i
+                                        class="fas fa-ellipsis-h"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

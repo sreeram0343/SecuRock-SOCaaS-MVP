@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+requests
+psutil
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+bcrypt==3.2.2
+argon2-cffi
