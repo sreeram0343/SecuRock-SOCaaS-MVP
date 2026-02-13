@@ -1,67 +1,79 @@
 import GlassCard from "@/components/ui/glass-card";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import { Server, Shield, Lock, Activity } from "lucide-react";
+import { Database, Network, Bot, Workflow, ShieldCheck, Cloud } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/layout/AnimatedBackground";
 
+const pillars = [
+    {
+        title: "Unified Telemetry Ingestion",
+        icon: Database,
+        description: "Collect endpoint, network, identity, and cloud logs through agents, syslog, and API connectors.",
+    },
+    {
+        title: "SIEM Correlation Layer",
+        icon: Network,
+        description: "Normalize and correlate events across sources to identify high-fidelity detections.",
+    },
+    {
+        title: "AI Detection Layer",
+        icon: Bot,
+        description: "Apply anomaly scoring and contextual prioritization before analyst triage.",
+    },
+    {
+        title: "SOAR-Style Workflows",
+        icon: Workflow,
+        description: "Automate enrichment, ticketing, and selected containment actions through playbooks.",
+    },
+    {
+        title: "Analyst-Led Operations",
+        icon: ShieldCheck,
+        description: "L1 and L2 analysts validate alerts, investigate incidents, and execute response workflows.",
+    },
+    {
+        title: "Hybrid Deployment",
+        icon: Cloud,
+        description: "Support cloud-native and on-prem environments without forcing a single-vendor architecture.",
+    },
+];
+
 export default function PlatformPage() {
     return (
-        <div className="min-h-screen bg-transparent text-foreground overflow-x-hidden relative flex flex-col">
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-transparent text-foreground">
             <AnimatedBackground />
             <Navbar />
 
-            <main className="flex-grow container mx-auto px-4 pt-32 pb-12 relative z-10">
+            <main className="container relative z-10 mx-auto flex-grow px-4 pb-12 pt-32">
                 <ScrollReveal variant="fadeUp">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-                        SecuRock <span className="text-securock-blue">Platform</span>
+                    <h1 className="mb-6 text-4xl font-bold text-white md:text-6xl">
+                        SecuRock <span className="text-securock-blue">Platform Architecture</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mb-12">
-                        A unified security operations platform designed for the modern enterprise.
+                    <p className="mb-12 max-w-3xl text-xl text-gray-300">
+                        Built as a practical SOC operations platform where data ingestion, detection engineering, analyst workflow, and incident response are integrated end-to-end.
                     </p>
                 </ScrollReveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <ScrollReveal variant="fadeUp" delay={0.1}>
-                        <GlassCard className="p-8 h-full bg-securock-navy-light/40">
-                            <Server className="w-12 h-12 text-securock-blue mb-4" />
-                            <h2 className="text-2xl font-bold text-white mb-4">Cloud-Native Architecture</h2>
-                            <p className="text-gray-400">
-                                Scalable infrastructure that grows with your business, supporting hybrid and multi-cloud environments.
-                            </p>
-                        </GlassCard>
-                    </ScrollReveal>
-
-                    <ScrollReveal variant="fadeUp" delay={0.2}>
-                        <GlassCard className="p-8 h-full bg-securock-navy-light/40">
-                            <Activity className="w-12 h-12 text-securock-green mb-4" />
-                            <h2 className="text-2xl font-bold text-white mb-4">Real-Time Analytics</h2>
-                            <p className="text-gray-400">
-                                Advanced machine learning algorithms that detect anomalies and threats in milliseconds.
-                            </p>
-                        </GlassCard>
-                    </ScrollReveal>
-
-                    <ScrollReveal variant="fadeUp" delay={0.3}>
-                        <GlassCard className="p-8 h-full bg-securock-navy-light/40">
-                            <Shield className="w-12 h-12 text-securock-gold mb-4" />
-                            <h2 className="text-2xl font-bold text-white mb-4">Automated Response</h2>
-                            <p className="text-gray-400">
-                                Playbook-driven automation to contain threats instantly without human intervention.
-                            </p>
-                        </GlassCard>
-                    </ScrollReveal>
-
-                    <ScrollReveal variant="fadeUp" delay={0.4}>
-                        <GlassCard className="p-8 h-full bg-securock-navy-light/40">
-                            <Lock className="w-12 h-12 text-rose-500 mb-4" />
-                            <h2 className="text-2xl font-bold text-white mb-4">Zero Trust Security</h2>
-                            <p className="text-gray-400">
-                                Verify every request, identity, and device accessing your network and applications.
-                            </p>
-                        </GlassCard>
-                    </ScrollReveal>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {pillars.map((pillar, i) => (
+                        <ScrollReveal key={pillar.title} variant="fadeUp" delay={i * 0.08}>
+                            <GlassCard className="h-full bg-securock-navy-light/40 p-7">
+                                <pillar.icon className="mb-4 h-10 w-10 text-securock-blue" />
+                                <h2 className="mb-3 text-xl font-bold text-white">{pillar.title}</h2>
+                                <p className="text-gray-300">{pillar.description}</p>
+                            </GlassCard>
+                        </ScrollReveal>
+                    ))}
                 </div>
+
+                <ScrollReveal variant="fadeUp" delay={0.2}>
+                    <GlassCard className="mt-10 bg-securock-navy-light/35 p-6 md:p-8">
+                        <h3 className="text-xl font-semibold text-white">Reference Stack</h3>
+                        <p className="mt-3 text-gray-300">
+                            SIEM: Wazuh/OpenSearch, IDS/IPS: Suricata, cloud connectors for AWS/Azure/GCP, AI-assisted anomaly models, and playbook-driven automation for response workflows.
+                        </p>
+                    </GlassCard>
+                </ScrollReveal>
             </main>
             <Footer />
         </div>

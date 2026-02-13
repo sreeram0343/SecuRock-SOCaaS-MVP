@@ -72,7 +72,7 @@ function ElegantShape({
 export default function AnimatedBackground() {
     return (
         <div className="fixed inset-0 z-0 pointer-events-none bg-[#030303] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-securock-blue/[0.07] via-transparent to-securock-green/[0.06] blur-3xl" />
 
             <div className="absolute inset-0 overflow-hidden opacity-40">
                 <ElegantShape
@@ -80,7 +80,7 @@ export default function AnimatedBackground() {
                     width={600}
                     height={140}
                     rotate={12}
-                    gradient="from-indigo-500/[0.15]"
+                    gradient="from-securock-blue/[0.16]"
                     className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
                 />
 
@@ -89,7 +89,7 @@ export default function AnimatedBackground() {
                     width={500}
                     height={120}
                     rotate={-15}
-                    gradient="from-rose-500/[0.15]"
+                    gradient="from-securock-green/[0.14]"
                     className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
                 />
 
@@ -98,7 +98,7 @@ export default function AnimatedBackground() {
                     width={300}
                     height={80}
                     rotate={-8}
-                    gradient="from-violet-500/[0.15]"
+                    gradient="from-securock-gold/[0.13]"
                     className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
                 />
             </div>

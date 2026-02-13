@@ -5,40 +5,59 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/layout/AnimatedBackground";
 
-export default function ResourcesPage() {
-    const resources = [
-        { type: "Whitepaper", title: "The State of Cloud Security 2024", icon: FileText },
-        { type: "Webinar", title: "Live Threat Hunting Demo", icon: Video },
-        { type: "Guide", title: "SOC2 Compliance Checklist", icon: BookOpen },
-        { type: "Case Study", title: "FinTech Giant Secures 10M+ Users", icon: Download },
-    ];
+const resources = [
+    {
+        type: "Whitepaper",
+        title: "AI-Augmented SOC Operations: Design and Implementation",
+        summary: "A practical framework for combining analyst workflow with AI-based prioritization.",
+        icon: FileText,
+    },
+    {
+        type: "Webinar",
+        title: "Reducing MTTD and MTTR in Mid-Market Environments",
+        summary: "Execution patterns for alert triage, escalation, and response playbook maturity.",
+        icon: Video,
+    },
+    {
+        type: "Guide",
+        title: "Security Monitoring Baseline for Cloud-First Teams",
+        summary: "Minimum telemetry, detections, and escalation controls for modern workloads.",
+        icon: BookOpen,
+    },
+    {
+        type: "Case Brief",
+        title: "SOC Service Model Selection for SMB and Fintech",
+        summary: "How to choose between fully managed, hybrid SOC, and IR retainer models.",
+        icon: Download,
+    },
+];
 
+export default function ResourcesPage() {
     return (
-        <div className="min-h-screen bg-transparent text-foreground overflow-x-hidden relative flex flex-col">
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-transparent text-foreground">
             <AnimatedBackground />
             <Navbar />
 
-            <main className="flex-grow container mx-auto px-4 pt-32 pb-12 relative z-10">
+            <main className="container relative z-10 mx-auto flex-grow px-4 pb-12 pt-32">
                 <ScrollReveal variant="fadeUp">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                    <h1 className="mb-6 text-4xl font-bold text-white md:text-6xl">
                         Security <span className="text-securock-blue">Resources</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mb-12">
-                        Expert insights, guides, and tools to strengthen your security posture.
+                    <p className="mb-12 max-w-3xl text-xl text-gray-300">
+                        Reference material designed for CISOs, SOC managers, and technical buyers evaluating managed security operations.
                     </p>
                 </ScrollReveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {resources.map((res, i) => (
-                        <ScrollReveal key={i} variant="fadeUp" delay={i * 0.1}>
-                            <GlassCard className="p-6 flex items-center gap-6 group hover:border-securock-blue/50 transition-colors">
-                                <div className="p-4 bg-white/5 rounded-xl group-hover:bg-securock-blue/10 transition-colors">
-                                    <res.icon className="w-8 h-8 text-gray-300 group-hover:text-securock-blue" />
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    {resources.map((resource, i) => (
+                        <ScrollReveal key={resource.title} variant="fadeUp" delay={i * 0.08}>
+                            <GlassCard className="group h-full p-6 transition-colors hover:border-securock-blue/50">
+                                <div className="mb-4 inline-flex rounded-xl bg-white/5 p-3 transition-colors group-hover:bg-securock-blue/10">
+                                    <resource.icon className="h-7 w-7 text-gray-300 group-hover:text-securock-blue" />
                                 </div>
-                                <div>
-                                    <div className="text-sm text-securock-blue font-semibold uppercase tracking-wider mb-1">{res.type}</div>
-                                    <h3 className="text-xl font-bold text-white">{res.title}</h3>
-                                </div>
+                                <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-securock-blue">{resource.type}</div>
+                                <h3 className="mb-2 text-xl font-bold text-white">{resource.title}</h3>
+                                <p className="text-sm text-gray-300">{resource.summary}</p>
                             </GlassCard>
                         </ScrollReveal>
                     ))}

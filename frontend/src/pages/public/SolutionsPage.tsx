@@ -1,52 +1,61 @@
 import GlassCard from "@/components/ui/glass-card";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import { ShoppingBag, Globe } from "lucide-react";
+import { Building2, HeartPulse, Landmark, GraduationCap, Rocket } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/layout/AnimatedBackground";
 
+const industries = [
+    {
+        title: "Small and Medium Businesses",
+        icon: Building2,
+        desc: "Need enterprise-grade detection and response without the cost of building a full internal SOC.",
+    },
+    {
+        title: "Fintech",
+        icon: Landmark,
+        desc: "Require high-confidence detections, strong audit trails, and response discipline around identity and transaction risk.",
+    },
+    {
+        title: "Healthcare",
+        icon: HeartPulse,
+        desc: "Need ransomware resilience, uptime protection, and defensible incident documentation for sensitive environments.",
+    },
+    {
+        title: "Educational Institutions",
+        icon: GraduationCap,
+        desc: "Must defend distributed users and endpoints while operating with constrained cybersecurity staffing.",
+    },
+    {
+        title: "Cloud-Native Startups",
+        icon: Rocket,
+        desc: "Need rapid onboarding and cross-cloud visibility that supports delivery velocity and investor diligence.",
+    },
+];
+
 export default function SolutionsPage() {
-    // Icon components
-    const Building2Icon = ({ className }: { className: string }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" /></svg>
-    );
-    const ActivityIcon = ({ className }: { className: string }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
-    );
-
-    const industries = [
-        { title: "Financial Services", icon: Building2Icon, desc: "Secure banking operations and protect customer financial data." },
-        { title: "Healthcare", icon: ActivityIcon, desc: "HIPAA-compliant security for patient records and medical devices." },
-        { title: "Retail", icon: ShoppingBag, desc: "Protect PCI data and secure e-commerce transactions." },
-        { title: "Government", icon: Globe, desc: "Federal-grade security for public sector agencies." },
-    ];
-
     return (
-        <div className="min-h-screen bg-transparent text-foreground overflow-x-hidden relative flex flex-col">
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-transparent text-foreground">
             <AnimatedBackground />
             <Navbar />
 
-            <main className="flex-grow container mx-auto px-4 pt-32 pb-12 relative z-10">
+            <main className="container relative z-10 mx-auto flex-grow px-4 pb-12 pt-32">
                 <ScrollReveal variant="fadeUp">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                    <h1 className="mb-6 text-4xl font-bold text-white md:text-6xl">
                         Industry <span className="text-securock-blue">Solutions</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mb-12">
-                        Tailored security strategies for your specific industry challenges.
+                    <p className="mb-12 max-w-3xl text-xl text-gray-300">
+                        Detection and response programs mapped to each sector's operating constraints, compliance obligations, and threat profile.
                     </p>
                 </ScrollReveal>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {industries.map((ind, i) => (
-                        <ScrollReveal key={i} variant="fadeUp" delay={i * 0.1}>
-                            <GlassCard className="p-8 flex items-start gap-4 hover:bg-securock-navy-light/60 transition-colors">
-                                <div className="p-3 bg-securock-blue/10 rounded-lg">
-                                    {ind.title === "Healthcare" ? <ActivityIcon className="w-8 h-8 text-securock-blue" /> : <ind.icon className="w-8 h-8 text-securock-blue" />}
-                                </div>
-                                <div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">{ind.title}</h3>
-                                    <p className="text-gray-400">{ind.desc}</p>
-                                </div>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    {industries.map((industry, i) => (
+                        <ScrollReveal key={industry.title} variant="fadeUp" delay={i * 0.08}>
+                            <GlassCard className="h-full bg-securock-navy-light/40 p-7">
+                                <industry.icon className="mb-4 h-9 w-9 text-securock-blue" />
+                                <h3 className="mb-3 text-2xl font-bold text-white">{industry.title}</h3>
+                                <p className="text-gray-300">{industry.desc}</p>
                             </GlassCard>
                         </ScrollReveal>
                     ))}

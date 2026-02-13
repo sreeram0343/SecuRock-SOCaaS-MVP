@@ -12,6 +12,19 @@ export default defineConfig({
             "@": resolve(__dirname, "./src"),
         },
     },
+    build: {
+        chunkSizeWarningLimit: 900,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ["react", "react-dom", "react-router-dom"],
+                    motion: ["framer-motion"],
+                    charts: ["recharts", "d3-scale", "react-simple-maps"],
+                    query: ["@tanstack/react-query", "axios"],
+                },
+            },
+        },
+    },
     server: {
         host: "0.0.0.0",
         port: 5173,

@@ -7,70 +7,80 @@ import { motion } from "framer-motion";
 export default function Pricing() {
     const plans = [
         {
-            name: "Basic",
-            tier: "basic",
-            price: "$49/month",
-            description: "Essential SOC features for small teams",
+            name: "Starter SOC",
+            tier: "starter",
+            price: "INR 49,000/month",
+            description: "Baseline managed coverage for teams starting formal SOC operations.",
             features: [
-                "Up to 3 users",
-                "1,000 alerts per month",
-                "50 incident management",
-                "Basic analytics dashboard",
-                "30-day data retention",
-                "Email support",
-                "Standard playbooks",
-                "Real-time threat detection"
+                "Up to 50 GB/day log ingestion",
+                "Monitoring window: 8x5",
+                "Initial alert acknowledgement <= 60 minutes",
+                "Up to 4 incident response hours/month",
+                "Monthly posture and incident summary",
+                "Cloud and endpoint telemetry onboarding"
             ]
         },
         {
-            name: "Premium",
-            tier: "premium",
-            price: "$199/month",
-            description: "Full-featured SOC for growing organizations",
+            name: "Growth SOC",
+            tier: "growth",
+            price: "INR 1,25,000/month",
+            description: "Extended SOC coverage and deeper investigation support for scaling organizations.",
             recommended: true,
             features: [
-                "Unlimited users",
-                "Unlimited alerts",
-                "Unlimited incidents",
-                "Advanced analytics & reporting",
-                "365-day data retention",
-                "Priority 24/7 support",
-                "Custom playbooks",
-                "API access",
-                "Advanced threat intelligence",
-                "Compliance reporting",
-                "Multi-tenant support",
-                "Dedicated account manager"
+                "Up to 200 GB/day log ingestion",
+                "Monitoring window: 16x7",
+                "Initial alert acknowledgement <= 30 minutes",
+                "Up to 12 incident response hours/month",
+                "Threat hunting support and detection tuning",
+                "Compliance-ready reporting artifacts"
+            ]
+        },
+        {
+            name: "Enterprise SOC",
+            tier: "enterprise",
+            price: "INR 3,20,000/month",
+            description: "Continuous 24x7 SOC with priority response for high-availability environments.",
+            features: [
+                "Up to 750 GB/day log ingestion",
+                "Monitoring window: 24x7",
+                "Initial alert acknowledgement <= 15 minutes",
+                "Up to 25 incident response hours/month",
+                "Priority incident handling and escalation",
+                "Quarterly control and risk review"
             ]
         }
     ];
 
-    return (
-        <div className="min-h-screen bg-transparent text-foreground overflow-x-hidden relative">
-            <AnimatedBackground />
+    const addons = [
+        ["Additional ingestion", "INR 9,000 per extra 50 GB/day"],
+        ["Endpoint telemetry package", "INR 180 per endpoint/month (min 100 endpoints)"],
+        ["Threat intel premium feeds", "INR 40,000/month"],
+        ["SOAR custom playbook", "INR 25,000 per playbook (one-time)"],
+        ["Emergency IR overage", "INR 12,000 per hour"],
+    ];
 
+    return (
+        <div className="relative min-h-screen overflow-x-hidden bg-transparent text-foreground">
+            <AnimatedBackground />
             <Navbar />
 
-            <main className="relative z-10 py-20 px-6">
-                <div className="max-w-7xl mx-auto">
-                    {/* Header */}
+            <main className="relative z-10 px-6 py-20 pt-32">
+                <div className="mx-auto max-w-7xl">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center mb-16"
+                        className="mb-12 text-center"
                     >
-                        <h1 className="text-5xl md:text-6xl font-bold mb-6 text-glow">
-                            Choose Your Plan
+                        <h1 className="mb-6 text-5xl font-bold text-white md:text-6xl">
+                            SOC <span className="text-securock-blue">Pricing</span>
                         </h1>
-                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Select the perfect plan for your organization's security needs.
-                            Start with a 14-day free trial on any plan.
+                        <p className="mx-auto max-w-3xl text-lg text-gray-300">
+                            Practical monthly plans designed for SMB, mid-market, and enterprise security operations. Final commercial scope is confirmed after telemetry assessment.
                         </p>
                     </motion.div>
 
-                    {/* Pricing Cards */}
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
+                    <div className="mx-auto mb-16 grid max-w-6xl gap-8 md:grid-cols-3">
                         {plans.map((plan, index) => (
                             <motion.div
                                 key={plan.tier}
@@ -83,66 +93,46 @@ export default function Pricing() {
                         ))}
                     </div>
 
-                    {/* Feature Comparison */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="bg-card/30 backdrop-blur-md border border-border rounded-2xl p-8 max-w-4xl mx-auto"
+                        className="mx-auto max-w-5xl rounded-2xl border border-white/10 bg-card/30 p-8 backdrop-blur-md"
                     >
-                        <h2 className="text-3xl font-bold mb-8 text-center">All Plans Include</h2>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            <div className="text-center">
-                                <div className="text-4xl mb-3">🛡️</div>
-                                <h3 className="font-semibold mb-2">Real-time Protection</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    24/7 monitoring and threat detection
-                                </p>
+                        <h2 className="mb-6 text-3xl font-bold text-white">SLA Tiers</h2>
+                        <div className="grid gap-4 text-sm text-gray-200 md:grid-cols-3">
+                            <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                                <p className="font-semibold text-white">Basic</p>
+                                <p className="mt-2">Coverage: 8x5</p>
+                                <p>Escalation: &lt;= 2 hours</p>
                             </div>
-                            <div className="text-center">
-                                <div className="text-4xl mb-3">🤖</div>
-                                <h3 className="font-semibold mb-2">AI-Powered Analysis</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Machine learning anomaly detection
-                                </p>
+                            <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                                <p className="font-semibold text-white">Advanced</p>
+                                <p className="mt-2">Coverage: 16x7</p>
+                                <p>Escalation: &lt;= 60 minutes</p>
                             </div>
-                            <div className="text-center">
-                                <div className="text-4xl mb-3">📊</div>
-                                <h3 className="font-semibold mb-2">Comprehensive Dashboard</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Intuitive security operations center
-                                </p>
+                            <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                                <p className="font-semibold text-white">Enterprise</p>
+                                <p className="mt-2">Coverage: 24x7</p>
+                                <p>Escalation: &lt;= 30 minutes (P1/P2)</p>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* FAQ Section */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
-                        className="mt-20 max-w-3xl mx-auto"
+                        className="mx-auto mt-12 max-w-5xl rounded-2xl border border-white/10 bg-card/30 p-8 backdrop-blur-md"
                     >
-                        <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-                        <div className="space-y-6">
-                            <div className="bg-card/30 backdrop-blur-md border border-border rounded-xl p-6">
-                                <h3 className="font-semibold mb-2">Can I switch plans later?</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Yes! You can upgrade or downgrade your plan at any time from your dashboard settings.
-                                </p>
-                            </div>
-                            <div className="bg-card/30 backdrop-blur-md border border-border rounded-xl p-6">
-                                <h3 className="font-semibold mb-2">What happens after the trial?</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    After your 14-day trial, you'll be prompted to select a paid plan to continue using SecuRock.
-                                </p>
-                            </div>
-                            <div className="bg-card/30 backdrop-blur-md border border-border rounded-xl p-6">
-                                <h3 className="font-semibold mb-2">Do you offer custom enterprise plans?</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Yes! Contact our sales team for custom enterprise solutions tailored to your needs.
-                                </p>
-                            </div>
+                        <h2 className="mb-6 text-3xl font-bold text-white">Add-On Pricing</h2>
+                        <div className="space-y-3">
+                            {addons.map(([name, value]) => (
+                                <div key={name} className="flex flex-col justify-between gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm md:flex-row md:items-center">
+                                    <p className="font-medium text-white">{name}</p>
+                                    <p className="text-gray-300">{value}</p>
+                                </div>
+                            ))}
                         </div>
                     </motion.div>
                 </div>
