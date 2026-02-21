@@ -52,11 +52,11 @@ module.exports = {
                     foreground: "hsl(var(--card-foreground))",
                 },
                 securock: {
-                    navy: "#0A1628",
-                    "navy-light": "#1A1F36",
-                    blue: "#00D9FF",
-                    green: "#00FF88",
-                    gold: "#D4AF37", // Added from user logo
+                    navy: "#0f172a", // Slate 900
+                    "navy-light": "#1e293b", // Slate 800
+                    blue: "#2563eb", // Blue 600 - Enterprise Primary
+                    green: "#16a34a", // Green 600 - Success
+                    gold: "#fbbf24", // Amber 400 - Warning
                 },
             },
             borderRadius: {

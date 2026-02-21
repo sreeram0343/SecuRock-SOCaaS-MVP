@@ -28,12 +28,12 @@ export default function Alerts() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-4xl font-bold text-glow mb-2">Security Alerts</h1>
+                    <h1 className="text-3xl font-bold tracking-tight mb-2">Security Alerts</h1>
                     <p className="text-muted-foreground">Monitor and respond to security threats</p>
                 </div>
                 <Button
                     onClick={() => fetchAlerts()}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm"
                 >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Refresh
@@ -45,7 +45,7 @@ export default function Alerts() {
                 {['critical', 'high', 'medium', 'low'].map((severity) => {
                     const count = alerts.filter(a => a.severity === severity).length;
                     return (
-                        <div key={severity} className="bg-card/30 backdrop-blur-md border border-border p-4 rounded-lg">
+                        <div key={severity} className="bg-card border border-border p-4 rounded-lg shadow-sm">
                             <div className="text-sm text-muted-foreground capitalize">{severity}</div>
                             <div className="text-2xl font-bold mt-1">{count}</div>
                         </div>
@@ -56,12 +56,12 @@ export default function Alerts() {
             {/* Alerts List */}
             <div className="space-y-4">
                 {isLoading && alerts.length === 0 ? (
-                    <div className="text-center text-muted-foreground py-10 bg-card/30 backdrop-blur-md border border-border rounded-xl">
+                    <div className="text-center text-muted-foreground py-10 bg-card border border-border rounded-xl shadow-sm">
                         <RefreshCw className="w-8 h-8 mx-auto mb-2 animate-spin" />
                         Loading alerts...
                     </div>
                 ) : alerts.length === 0 ? (
-                    <div className="text-center text-muted-foreground py-10 bg-card/30 backdrop-blur-md border border-border rounded-xl">
+                    <div className="text-center text-muted-foreground py-10 bg-card border border-border rounded-xl shadow-sm">
                         <AlertTriangle className="w-12 h-12 mx-auto mb-2 opacity-50" />
                         <p>No alerts found</p>
                         <p className="text-xs mt-1">Your system is secure</p>
@@ -74,7 +74,7 @@ export default function Alerts() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
                         >
-                            <Card className="bg-card/30 backdrop-blur-md border-border hover:border-primary/50 transition-all">
+                            <Card className="bg-card border-border hover:shadow-md transition-shadow">
                                 <CardContent className="p-6 flex items-center justify-between">
                                     <div className="flex items-start space-x-4 flex-1">
                                         <div className={`px-3 py-1 rounded-full text-xs font-semibold border ${severityColors[alert.severity] || severityColors.low}`}>
@@ -98,7 +98,7 @@ export default function Alerts() {
                                             <Button
                                                 size="sm"
                                                 onClick={() => updateAlertStatus(alert.id, 'acknowledged')}
-                                                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30"
+                                                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm"
                                             >
                                                 Acknowledge
                                             </Button>

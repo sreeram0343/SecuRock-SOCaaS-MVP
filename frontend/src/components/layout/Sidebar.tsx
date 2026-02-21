@@ -17,11 +17,11 @@ export default function Sidebar() {
     ];
 
     return (
-        <div className="h-screen w-64 bg-card/30 backdrop-blur-md text-white flex flex-col border-r border-border">
+        <div className="h-screen w-64 bg-card text-foreground flex flex-col border-r border-border shadow-sm">
             {/* Logo */}
             <div className="p-6 flex items-center space-x-3 border-b border-border">
                 <Shield className="w-8 h-8 text-primary" />
-                <span className="text-2xl font-bold text-glow">SecuRock</span>
+                <span className="text-2xl font-bold tracking-tight text-foreground">SecuRock</span>
             </div>
 
             {/* Navigation */}
@@ -33,8 +33,8 @@ export default function Sidebar() {
                         className={({ isActive }) => cn(
                             "flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
                             isActive
-                                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                                ? "bg-primary text-primary-foreground shadow-sm font-semibold"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                         )}
                     >
                         <item.icon size={20} />

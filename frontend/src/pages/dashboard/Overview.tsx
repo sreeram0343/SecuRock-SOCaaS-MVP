@@ -17,7 +17,7 @@ function StatCard({ title, value, icon: Icon, trend, color }: StatCardProps) {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl hover:shadow-lg hover:shadow-primary/10 transition-all"
+            className="bg-card border border-border p-6 rounded-xl hover:shadow-md transition-shadow"
         >
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
@@ -145,7 +145,7 @@ export default function Overview() {
             </div>
 
             {/* Live Attack Map */}
-            <div className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl shadow-lg shadow-black/20">
+            <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                     <Activity className="w-5 h-5 text-destructive" />
                     Live Attack Map
@@ -158,7 +158,7 @@ export default function Overview() {
             {/* Main Content Grid */}
             <div className="grid gap-6 lg:grid-cols-3">
                 {/* Threat Trends Chart */}
-                <div className="lg:col-span-2 bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl shadow-lg shadow-black/20">
+                <div className="lg:col-span-2 bg-card border border-border p-6 rounded-xl shadow-sm">
                     <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-primary" />
                         Alert Trends
@@ -188,7 +188,7 @@ export default function Overview() {
 
 
                 {/* Recent Activity */}
-                <div className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl">
+                <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
                     <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                         <Clock className="w-5 h-5 text-primary" />
                         Recent Activity
@@ -225,7 +225,7 @@ export default function Overview() {
 
             {/* Security Posture */}
             <div className="grid gap-6 md:grid-cols-3">
-                <div className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl">
+                <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
                     <h4 className="font-semibold mb-3 text-accent">Threat Detection</h4>
                     <div className="space-y-2">
                         <div className="flex justify-between text-sm">
@@ -238,7 +238,7 @@ export default function Overview() {
                     </div>
                 </div>
 
-                <div className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl">
+                <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
                     <h4 className="font-semibold mb-3 text-primary">Response Time</h4>
                     <div className="space-y-2">
                         <div className="flex justify-between text-sm">
@@ -251,7 +251,7 @@ export default function Overview() {
                     </div>
                 </div>
 
-                <div className="bg-card/30 backdrop-blur-md border border-border p-6 rounded-xl">
+                <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
                     <h4 className="font-semibold mb-3 text-yellow-500">System Health</h4>
                     <div className="space-y-2">
                         <div className="flex justify-between text-sm">

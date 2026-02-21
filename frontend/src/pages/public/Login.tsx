@@ -23,11 +23,11 @@ export default function Login() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+        <div className="relative min-h-screen flex items-center justify-center text-foreground overflow-hidden bg-background">
             <AnimatedBackground />
 
-            <div className="relative z-10 w-full max-w-md p-8 bg-card/30 backdrop-blur-md border border-border rounded-2xl shadow-2xl">
-                <h2 className="mb-6 text-4xl font-bold text-center text-glow">SecuRock Login</h2>
+            <div className="relative z-10 w-full max-w-md p-8 bg-card border border-border rounded-xl shadow-lg">
+                <h2 className="mb-6 text-3xl font-extrabold text-center text-foreground tracking-tight">SecuRock Login</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1">Email</label>
@@ -51,7 +51,7 @@ export default function Login() {
                     </div>
                     <Button
                         type="submit"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm mt-6"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Logging in...' : 'Sign In'}

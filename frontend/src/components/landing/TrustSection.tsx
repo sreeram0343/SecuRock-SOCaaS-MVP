@@ -1,5 +1,4 @@
 import { CheckCircle2, BellRing, Bot, ClipboardCheck } from "lucide-react";
-import GlassCard from "@/components/ui/glass-card";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const trustSignals = [
@@ -31,14 +30,14 @@ const trustSignals = [
 
 export default function TrustSection() {
     return (
-        <section className="relative z-10 py-12 text-white">
+        <section className="relative z-10 py-12 text-foreground">
             <div className="container mx-auto px-4">
                 <div className="mb-8 max-w-3xl">
                     <ScrollReveal variant="fadeUp">
                         <h2 className="text-3xl font-bold md:text-4xl">Built for security outcomes, not alert volume.</h2>
                     </ScrollReveal>
                     <ScrollReveal variant="fadeUp" delay={0.1}>
-                        <p className="mt-3 text-gray-300">
+                        <p className="mt-3 text-muted-foreground">
                             SecuRock is designed around practical SOC operations: prioritize real threats, reduce analyst overload, and maintain decision-quality under pressure.
                         </p>
                     </ScrollReveal>
@@ -47,14 +46,14 @@ export default function TrustSection() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     {trustSignals.map((item, index) => (
                         <ScrollReveal key={item.label} variant="fadeUp" delay={index * 0.08}>
-                            <GlassCard variant="hover-shine" className="h-full p-6 bg-securock-navy-light/40">
-                                <div className="mb-4 inline-flex rounded-lg bg-securock-blue/10 p-3 text-securock-blue">
+                            <div className="h-full p-6 rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
+                                <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3 text-primary">
                                     <item.icon className="h-5 w-5" />
                                 </div>
-                                <p className="text-xs uppercase tracking-wider text-gray-400">{item.label}</p>
-                                <h3 className="mt-1 text-xl font-semibold text-white">{item.value}</h3>
-                                <p className="mt-2 text-sm leading-relaxed text-gray-300">{item.detail}</p>
-                            </GlassCard>
+                                <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">{item.label}</p>
+                                <h3 className="mt-1 text-xl font-bold text-card-foreground">{item.value}</h3>
+                                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.detail}</p>
+                            </div>
                         </ScrollReveal>
                     ))}
                 </div>

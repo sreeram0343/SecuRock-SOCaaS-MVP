@@ -8,7 +8,6 @@ import {
     Server,
     FileCheck2,
 } from "lucide-react";
-import GlassCard from "@/components/ui/glass-card";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const services = [
@@ -55,7 +54,7 @@ const flow = [
 
 export default function ServicesSection() {
     return (
-        <section className="relative z-10 overflow-hidden py-20 text-white">
+        <section className="relative z-10 overflow-hidden py-20 text-foreground">
             <div className="container mx-auto px-4">
                 <div className="mx-auto mb-12 max-w-3xl text-center">
                     <ScrollReveal variant="fadeUp">
@@ -64,7 +63,7 @@ export default function ServicesSection() {
                         </h2>
                     </ScrollReveal>
                     <ScrollReveal variant="fadeUp" delay={0.1}>
-                        <p className="mt-4 text-lg text-gray-300">
+                        <p className="mt-4 text-lg text-muted-foreground">
                             SecuRock combines SIEM operations, AI-assisted analytics, and analyst-led incident response into one managed service model.
                         </p>
                     </ScrollReveal>
@@ -73,40 +72,40 @@ export default function ServicesSection() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {services.map((service, index) => (
                         <ScrollReveal key={service.title} variant="fadeUp" delay={index * 0.08}>
-                            <GlassCard variant="hover-shine" className="h-full bg-securock-navy-light/30 p-8">
-                                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-white/15 bg-securock-navy">
-                                    <service.icon className="h-6 w-6 text-securock-blue" />
+                            <div className="h-full rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow p-8">
+                                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-primary/20 bg-primary/5">
+                                    <service.icon className="h-6 w-6 text-primary" />
                                 </div>
-                                <h3 className="mb-3 text-xl font-bold text-white">{service.title}</h3>
-                                <p className="leading-relaxed text-gray-300">{service.description}</p>
-                            </GlassCard>
+                                <h3 className="mb-3 text-xl font-bold text-card-foreground">{service.title}</h3>
+                                <p className="leading-relaxed text-muted-foreground">{service.description}</p>
+                            </div>
                         </ScrollReveal>
                     ))}
                 </div>
 
                 <ScrollReveal variant="fadeUp" delay={0.15}>
-                    <GlassCard className="mt-12 bg-securock-navy-light/35 p-6 md:p-8">
-                        <div className="mb-5 flex items-center gap-2 text-securock-blue">
+                    <div className="mt-12 rounded-xl border border-border bg-card shadow-sm p-6 md:p-8">
+                        <div className="mb-5 flex items-center gap-2 text-primary">
                             <Server className="h-5 w-5" />
-                            <span className="text-sm font-semibold uppercase tracking-wide">Architecture Flow</span>
+                            <span className="text-sm font-bold uppercase tracking-wide">Architecture Flow</span>
                         </div>
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-6 md:items-center md:gap-2">
                             {flow.map((step, index) => (
                                 <div key={step} className="flex items-center gap-2 md:justify-center">
-                                    <div className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-gray-200 md:w-full md:text-center">
+                                    <div className="rounded-md border border-border bg-muted px-3 py-2 text-xs font-semibold text-foreground md:w-full md:text-center">
                                         {step}
                                     </div>
                                     {index < flow.length - 1 && (
-                                        <span className="hidden text-securock-blue md:inline">-&gt;</span>
+                                        <span className="hidden text-muted-foreground md:inline">-&gt;</span>
                                     )}
                                 </div>
                             ))}
                         </div>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-gray-400">
-                            <Cpu className="h-4 w-4 text-securock-green" />
+                        <div className="mt-5 flex items-center gap-2 text-sm text-muted-foreground border-t border-border pt-4">
+                            <Cpu className="h-4 w-4 text-primary" />
                             AI layer enriches and prioritizes alerts before analyst validation and response action.
                         </div>
-                    </GlassCard>
+                    </div>
                 </ScrollReveal>
             </div>
         </section>

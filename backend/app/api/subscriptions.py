@@ -12,6 +12,8 @@ from app.services.subscription_service import (
 from app.config import settings
 from pydantic import BaseModel
 from typing import Dict
+from sqlalchemy.future import select
+from app.models.user import User
 
 router = APIRouter()
 
@@ -34,6 +36,7 @@ async def get_available_plans():
             continue
             
         price = "$0/month" if tier == "basic" else "$99/month" if tier == "premium" else "$0"
+        price = "$0/month" if tier == "basic" else "$99/month" if tier == "premium" else "$0"
         
         plans.append({
             "name": tier.capitalize(),
@@ -42,18 +45,14 @@ async def get_available_plans():
             "price": price,
             "recommended": tier == "premium"
         })
-    
+        
     return {"plans": plans}
-
-@router.get("/current")
 async def get_current_subscription(
-    current_user: dict = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Get current subscription details"""
-    org_id = current_user.get("organization_id")
-    
-    from sqlalchemy.future import select
+    org_id = current_user.organization_id
     from app.models.organization import Organization
     
     result = await db.execute(
@@ -78,11 +77,11 @@ async def get_current_subscription(
 @router.post("/upgrade")
 async def upgrade_subscription(
     request: PlanUpgradeRequest,
-    current_user: dict = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Upgrade to a higher plan"""
-    org_id = current_user.get("organization_id")
+    org_id = current_user.organization_id
     
     # Validate plan tier
     if request.plan_tier not in ["basic", "premium"]:
@@ -107,11 +106,11 @@ async def upgrade_subscription(
 
 @router.get("/trial-status")
 async def get_trial_status(
-    current_user: dict = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Get trial status for current organization"""
-    org_id = current_user.get("organization_id")
+    org_id = current_user.organization_id
     trial_status = await check_trial_status(org_id, db)
     
     return trial_status

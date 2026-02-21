@@ -50,11 +50,11 @@ export default function Signup() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+        <div className="relative min-h-screen flex items-center justify-center text-foreground overflow-hidden bg-background">
             <AnimatedBackground />
 
-            <div className="relative z-10 w-full max-w-md p-8 bg-card/30 backdrop-blur-md border border-border rounded-2xl shadow-2xl">
-                <h2 className="mb-6 text-4xl font-bold text-center text-glow">Join SecuRock</h2>
+            <div className="relative z-10 w-full max-w-md p-8 bg-card border border-border rounded-xl shadow-lg">
+                <h2 className="mb-6 text-3xl font-extrabold text-center text-foreground tracking-tight">Join SecuRock</h2>
                 {error && (
                     <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 text-destructive-foreground rounded text-sm">
                         {error}
@@ -119,15 +119,19 @@ export default function Signup() {
                             <option value="basic">Basic - $49/month</option>
                             <option value="premium">Premium - $199/month</option>
                         </select>
-                        <div className="mt-2 text-xs text-muted-foreground">
+                        <div className="mt-3 space-y-1 text-xs text-muted-foreground bg-muted/50 p-3 rounded-md border border-border">
+                            <div className="font-semibold text-foreground mb-1">Plan Includes:</div>
                             {planBenefits[formData.plan_tier as keyof typeof planBenefits]?.map((benefit, i) => (
-                                <div key={i}>✓ {benefit}</div>
+                                <div key={i} className="flex items-center gap-1.5">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                    {benefit}
+                                </div>
                             ))}
                         </div>
                     </div>
                     <Button
                         type="submit"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm mt-6"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Creating Account...' : 'Sign Up'}

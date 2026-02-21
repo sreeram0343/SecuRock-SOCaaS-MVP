@@ -19,9 +19,6 @@ async def signup(user_data: UserSignup, db: AsyncSession = Depends(get_db)):
     try:
         user = await register_user_org(db, user_data)
         if not user:
-             # Standardization: Don't leak if email exists or not, but for signup it's tricky.
-             # Ideally we say "If email exists, please login".
-             # But here we return 400 as per request.
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail={"error": "REGISTRATION_FAILED", "message": "Email already registered"},
@@ -33,6 +30,9 @@ async def signup(user_data: UserSignup, db: AsyncSession = Depends(get_db)):
         refresh_token = create_refresh_token(subject=str(user.id))
         
         return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+    except HTTPException:
+        # propagate expected client errors
+        raise
     except Exception as e:
         logger.error(f"Signup error: {str(e)}")
         raise HTTPException(
@@ -86,12 +86,18 @@ async def refresh_token(token_data: RefreshToken, db: AsyncSession = Depends(get
         if payload.get("type") != "refresh":
              raise HTTPException(status_code=401, detail={"error": "INVALID_TOKEN", "message": "Invalid token type"})
         
-        user_id = payload.get("sub")
-        if not user_id:
+        user_id_raw = payload.get("sub")
+        if not user_id_raw:
             raise HTTPException(status_code=401, detail={"error": "INVALID_TOKEN", "message": "Invalid token payload"})
 
         # Fetch user
         from sqlalchemy.future import select
+        import uuid
+        try:
+            user_id = uuid.UUID(user_id_raw)
+        except Exception:
+            raise HTTPException(status_code=401, detail={"error": "INVALID_TOKEN", "message": "Invalid token payload"})
+
         result = await db.execute(select(User).where(User.id == user_id))
         user = result.scalars().first()
         

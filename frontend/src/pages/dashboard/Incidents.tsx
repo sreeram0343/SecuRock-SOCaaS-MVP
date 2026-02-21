@@ -24,10 +24,10 @@ export default function Incidents() {
         <div className="h-[calc(100vh-8rem)] flex flex-col space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-4xl font-bold text-glow mb-2">Incident Response</h1>
+                    <h1 className="text-3xl font-bold tracking-tight mb-2">Incident Response</h1>
                     <p className="text-muted-foreground">Manage, investigate, and resolve security incidents</p>
                 </div>
-                <Button className="bg-destructive hover:bg-destructive/90 text-destructive-foreground shadow-lg shadow-destructive/30 border border-destructive/50">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
                     <Plus className="w-4 h-4 mr-2" />
                     Create Incident
                 </Button>
@@ -35,7 +35,7 @@ export default function Incidents() {
 
             <div className="flex-1 grid grid-cols-3 gap-6 overflow-hidden">
                 {columns.map((col) => (
-                    <div key={col.id} className="bg-card/20 backdrop-blur-md rounded-xl p-4 flex flex-col h-full border border-border shadow-inner">
+                    <div key={col.id} className="bg-muted/30 rounded-xl p-4 flex flex-col h-full border border-border shadow-sm">
                         <div className="flex items-center justify-between mb-4 px-2">
                             <h3 className="text-lg font-semibold flex items-center gap-2">
                                 {col.id === 'new' && <ShieldAlert className="w-5 h-5 text-destructive" />}
@@ -55,7 +55,7 @@ export default function Incidents() {
                                 </div>
                             ) : (
                                 incidents.filter(i => i.status === col.id).map(incident => (
-                                    <Card key={incident.id} className="bg-card/40 border-border cursor-move hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5 group relative overflow-hidden">
+                                    <Card key={incident.id} className="bg-card border-border cursor-move hover:shadow-md transition-shadow group relative overflow-hidden mb-3">
                                         <div className={`absolute left-0 top-0 bottom-0 w-1 ${incident.priority === 'high' ? 'bg-destructive' :
                                             incident.priority === 'medium' ? 'bg-yellow-500' :
                                                 'bg-primary'

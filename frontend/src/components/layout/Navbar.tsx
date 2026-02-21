@@ -16,7 +16,7 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-securock-navy/70 backdrop-blur-md">
+        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-12">
                 <div className="cursor-pointer" onClick={() => navigate('/')}>
                     <Logo />
@@ -24,7 +24,7 @@ export default function Navbar() {
 
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
                     {navItems.map((item) => (
-                        <Link key={item.to} to={item.to} className="transition-colors hover:text-securock-blue">
+                        <Link key={item.to} to={item.to} className="transition-colors text-muted-foreground hover:text-foreground">
                             {item.label}
                         </Link>
                     ))}
@@ -33,13 +33,13 @@ export default function Navbar() {
                 <div className="hidden md:flex gap-4">
                     <Button
                         variant="ghost"
-                        className="text-gray-300 hover:bg-white/5 hover:text-white"
+                        className="text-muted-foreground hover:bg-muted hover:text-foreground"
                         onClick={() => navigate('/login')}
                     >
                         Login
                     </Button>
                     <Button
-                        className="bg-securock-blue font-semibold text-securock-navy shadow-[0_0_15px_rgba(0,217,255,0.35)] transition-all hover:bg-securock-blue/90 hover:shadow-[0_0_25px_rgba(0,217,255,0.55)]"
+                        className="bg-primary font-semibold text-primary-foreground transition-all hover:bg-primary/90 shadow-sm"
                         onClick={() => navigate('/signup')}
                     >
                         Request Demo
@@ -55,13 +55,13 @@ export default function Navbar() {
                 </button>
             </div>
 
-            <div className={`${isOpen ? "block" : "hidden"} border-t border-white/10 bg-securock-navy/95 md:hidden`}>
+            <div className={`${isOpen ? "block" : "hidden"} border-t border-border bg-background/95 md:hidden`}>
                 <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-4">
                     {navItems.map((item) => (
                         <Link
                             key={item.to}
                             to={item.to}
-                            className="rounded-md px-2 py-2 text-sm text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
+                            className="rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                             onClick={() => setIsOpen(false)}
                         >
                             {item.label}
@@ -69,7 +69,7 @@ export default function Navbar() {
                     ))}
                     <Button
                         variant="ghost"
-                        className="justify-start text-gray-300 hover:bg-white/5 hover:text-white"
+                        className="justify-start text-muted-foreground hover:bg-muted hover:text-foreground"
                         onClick={() => {
                             setIsOpen(false);
                             navigate('/login');
@@ -78,7 +78,7 @@ export default function Navbar() {
                         Login
                     </Button>
                     <Button
-                        className="bg-securock-blue font-semibold text-securock-navy hover:bg-securock-blue/90"
+                        className="bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                         onClick={() => {
                             setIsOpen(false);
                             navigate('/signup');
@@ -88,6 +88,6 @@ export default function Navbar() {
                     </Button>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }
