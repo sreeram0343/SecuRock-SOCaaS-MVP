@@ -65,6 +65,8 @@ export default function Overview() {
     });
     const [chartData, setChartData] = useState<ChartPoint[]>([]);
     const [attacks, setAttacks] = useState<AttackPoint[]>([]);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchDashboard = async () => {
@@ -99,10 +101,39 @@ export default function Overview() {
         // Poll every 30s
         const interval = setInterval(fetchDashboard, 30000);
         return () => clearInterval(interval);
+    }, [refreshTrigger]);
+
+    useEffect(() => {
+        const handleKeyDown = async (e: KeyboardEvent) => {
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+            const keyMap: Record<string, string> = { 'a': 'brute_force', 'b': 'sql_injection', 'c': 'malware' };
+            const type = keyMap[e.key.toLowerCase()];
+            if (type) {
+                try {
+                    await api.post('/analytics/demo-attack', { attack_type: type });
+                    setToastMessage(`Demo attack active: ${type.toUpperCase().replace('_', ' ')}`);
+                    setTimeout(() => setToastMessage(null), 3000);
+                    setRefreshTrigger(prev => prev + 1);
+                } catch (err) {
+                    console.error("Failed to trigger demo attack", err);
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 relative">
+            {/* Toast Notification */}
+            {toastMessage && (
+                <div className="fixed top-4 right-4 z-50 bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-4">
+                    <Activity className="w-5 h-5" />
+                    <span className="font-medium">{toastMessage}</span>
+                </div>
+            )}
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
