@@ -106,6 +106,20 @@ export default function Overview() {
     useEffect(() => {
         const handleKeyDown = async (e: KeyboardEvent) => {
             if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+            // Handle Resolve All attacks
+            if (e.key.toLowerCase() === 'r') {
+                try {
+                    await api.post('/analytics/resolve-demo-attacks');
+                    setToastMessage("All active threats resolved.");
+                    setTimeout(() => setToastMessage(null), 3000);
+                    setRefreshTrigger(prev => prev + 1);
+                } catch (err) {
+                    console.error("Failed to resolve demo attacks", err);
+                }
+                return;
+            }
+
             const keyMap: Record<string, string> = { 'a': 'brute_force', 'b': 'sql_injection', 'c': 'malware' };
             const type = keyMap[e.key.toLowerCase()];
             if (type) {

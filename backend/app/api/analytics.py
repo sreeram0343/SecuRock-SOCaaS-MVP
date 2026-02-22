@@ -20,24 +20,28 @@ async def get_dashboard_metrics(
 ):
     org_id = current_user.organization_id
 
-    # 1. Total Alerts
+    # 1. Total Active Alerts (excluding resolved)
     total_alerts_result = await db.execute(
-        select(func.count(Alert.id)).where(Alert.organization_id == org_id)
+        select(func.count(Alert.id))
+        .where(Alert.organization_id == org_id)
+        .where(Alert.status != 'resolved')
     )
     total_alerts = total_alerts_result.scalar_one_or_none() or 0
 
     # 2. Total & Open Incidents
     incidents_result = await db.execute(
-        select(Incident.status).where(Incident.organization_id == org_id)
+        select(Incident.status)
+        .where(Incident.organization_id == org_id)
     )
     incidents = incidents_result.scalars().all()
     total_incidents = len(incidents)
     open_incidents = sum(1 for status in incidents if status != 'resolved')
 
-    # 3. Severity Distribution
+    # 3. Severity Distribution (Active Only)
     severity_result = await db.execute(
         select(Alert.severity, func.count(Alert.id))
         .where(Alert.organization_id == org_id)
+        .where(Alert.status != 'resolved')
         .group_by(Alert.severity)
     )
     severity_distribution = [
@@ -117,3 +121,32 @@ async def trigger_demo_attack(
     await db.refresh(new_alert)
     
     return {"message": "Demo attack triggered successfully", "alert_id": str(new_alert.id)}
+
+@router.post("/resolve-demo-attacks")
+async def resolve_demo_attacks(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Resolve all active alerts/incidents for live dashboard demos."""
+    org_id = current_user.organization_id
+    
+    # Update all non-resolved alerts to 'resolved'
+    from sqlalchemy import update
+    await db.execute(
+        update(Alert)
+        .where(Alert.organization_id == org_id)
+        .where(Alert.status != 'resolved')
+        .values(status='resolved')
+    )
+    
+    # Also resolve open incidents if applicable
+    await db.execute(
+        update(Incident)
+        .where(Incident.organization_id == org_id)
+        .where(Incident.status != 'resolved')
+        .values(status='resolved')
+    )
+    
+    await db.commit()
+    
+    return {"message": "All active threats have been resolved."}
