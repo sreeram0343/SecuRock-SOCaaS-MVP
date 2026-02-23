@@ -1,0 +1,7 @@
+nodes:
+  - name: wazuh.manager
+    ip: 127.0.0.1
+  - name: wazuh.indexer
+    ip: 127.0.0.1
+  - name: wazuh.dashboard
+    ip: 127.0.0.1

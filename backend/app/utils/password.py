@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 
-# Use argon2 for hashing, which is modern and avoids the bcrypt 72-byte/version issues
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+# Use bcrypt for hashing as required by enterprise specifications
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)

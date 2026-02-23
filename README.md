@@ -1,84 +1,90 @@
+# SecuRock SOCaaS Platform
 
-# SecuRock SOC - AI-Powered Security Operations Center
+SecuRock is an enterprise-grade, multi-tenant Security Operations Center as a Service (SOCaaS) platform. It unifies high-fidelity threat detection, AI-driven incident analysis, and a modern client portal tailored for direct-to-enterprise and Managed Service Provider (MSP) engagements.
 
-SecuRock's SOC is a completely AI-powered Security Operations Center as a Service. It is a lightweight, cloud-based, next-gen SOC system designed to detect, alert, and respond to all types of cyber attacks.
+## 🚀 Architecture Overview
 
-## Features
+SecuRock operates on a robust, scalable microservices architecture built for heavy telemetry ingestion and low-latency analysis.
 
-- **Multi-Tenant Architecture**: Organization-based data isolation.
-- **Real-Time Dashboard**: Live alerts and incident tracking.
-- **AI-Powered Detection**: Isolation Forest model for anomaly detection.
-- **Incident Management**: Kanban-style incident board.
-- **Automated Response**: Playbook system for rule-based actions.
+*   **Frontend (Next.js 14):** A unified enterprise website and authenticated client dashboard. Built with React (App Router), Tailwind CSS, Shadcn UI, and Zustand. Real-time alert streaming via WebSockets.
+*   **Backend (FastAPI):** High-performance asynchronous API handling RBAC, multi-tenancy, and alert routing. Uses `bcrypt` for secure authentication and HttpOnly cookies for JWT refresh tokens.
+*   **Database (PostgreSQL 15):** Relational store for users, organizations, alert metadata, and incident tracking, accessed via SQLAlchemy and asyncpg.
+*   **Message Broker (Redis):** Handles asynchronous task queuing and websocket pub/sub for real-time dashboard events.
+*   **Search Engine (OpenSearch):** Stores raw telemetry data and detailed AI evaluations for fast querying and dashboard analytics.
+*   **Analytics Engine (Scikit-Learn & OpenAI):**
+    *   **ML Service:** Uses an `Isolation Forest` model to score telemetry anomalies and block automated threats.
+    *   **AI Service:** Leverages OpenAI models via LangChain to generate structured incident narratives (Executive Summary, Technical Analysis, Remediation).
+*   **Infrastructure (Docker & Nginx):** Containerized deployment managed by Docker Compose, with Nginx acting as the reverse proxy for seamless API/WebSocket routing.
+*   **SIEM Integration (Wazuh):** Centralized log aggregation and threat intelligence feed integration.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Backend**: FastAPI, Async PostgreSQL, SQLAlchemy, Pydantic, Redis.
-- **Frontend**: React 18, Vite, TypeScript, TailwindCSS, Zustand.
-- **ML**: Scikit-Learn, Pandas.
-- **Infrastructure**: Docker, Nginx.
+*   **Languages:** Python 3.11+, TypeScript, SQL
+*   **Frameworks:** FastAPI, Next.js 14, React 18, Tailwind CSS
+*   **Data Stores:** PostgreSQL, Redis, OpenSearch
+*   **AI/ML:** Scikit-Learn (Isolation Forest), LangChain, OpenAI API
+*   **Infrastructure:** Docker, Docker Compose, Nginx, Wazuh
 
-## Quick Start (Automated)
+## 📦 Getting Started (Local Development)
 
-The easiest way to get started is using the installation script:
+### Prerequisites
+
+*   Docker engine and Docker Compose installed
+*   Node.js 20+ (for local frontend development without Docker)
+*   Python 3.11+ (for local backend development without Docker)
+*   An OpenAI API Key
+
+### 1. Environment Setup
+
+Copy the environment template and fill in your secrets:
 
 ```bash
-./install.sh
+cp .env.example .env
 ```
-This will check for Docker, generate a `.env` file, and start all services.
 
-## Manual Run Instructions
+Ensure you add your `OPENAI_API_KEY` to the `.env` file for the AI generation features to function correctly.
 
-### 1. Prerequisites
--   **Docker & Docker Compose** (Recommended for full stack)
--   **Python 3.10+** (For local backend/AI)
--   **Node.js 18+** (For local frontend)
+### 2. Bootstrapping the Platform
 
-### 2. Run with Docker (Production-Ready)
-To run the full stack (Backend, Frontend, DB, Redis, OpenSearch, Worker):
+You can launch the entire stack (Database, Cache, Search, API, Frontend, Nginx proxy) using a single command:
 
 ```bash
-docker-compose up -d --build
-```
--   **Dashboard**: [http://localhost:5173](http://localhost:5173)
--   **API**: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 3. Local Development
-
-#### Backend & AI Services
-```bash
-cd backend
-# Install dependencies
-pip install -r requirements.txt
-pip install langchain-experimental # For AI Analyst
-
-# Run Database (if not using Docker)
-# Or configure valid DATABASE_URL in .env
-
-# Start API
-uvicorn app.main:app --reload --port 8000
+docker-compose up --build -d
 ```
 
-#### Frontend Dashboard
-```bash
-cd frontend
-npm install
-npm run dev
+### 3. Accessing the Services
+
+*   **SecuRock Web Platform:** `http://localhost` (Routes to Next.js)
+*   **Backend API Documentation (SwaggerUI):** `http://localhost/docs` (Proxied via Nginx to FastAPI)
+*   **Direct API Access:** `http://localhost/api/*`
+
+## 🔒 Security Posture
+
+*   **Authentication:** Dual-token JWT architecture. Access tokens (short-lived) in memory, Refresh tokens (long-lived) in secure HttpOnly cookies.
+*   **Authorization:** Role-Based Access Control (RBAC) enforced via FastAPI dependencies per endpoint.
+*   **Multi-Tenancy:** Hardened logical separation via `organization_id` bindings across all relational tables.
+*   **Passwords:** Salted and hashed using `bcrypt` (Passlib).
+
+## 🗂️ Project Structure
+
+```
+securock-platform/
+├── backend/                # FastAPI application
+│   ├── app/                # Application code (API, models, services, workers)
+│   ├── models/             # Trained ML models (.joblib)
+│   ├── tests/              # Pytest battery
+│   └── requirements.txt    # Python dependencies
+├── frontend_next/          # Next.js 14 application
+│   ├── src/app/            # App router pages (Landing, Dashboard, Auth)
+│   ├── src/components/     # Reusable UI elements (Shadcn, Charts)
+│   ├── src/store/          # Zustand state management
+│   └── tailwind.config.ts  # Tailwind custom design system
+├── infra/                  # Infrastructure configurations
+│   └── nginx/              # Nginx reverse proxy routing
+├── shared/                 # Shared resources (schemas, constants)
+├── docker-compose.yml      # Orchestration definition
+└── .env.example            # Environment variables template
 ```
 
-### 4. Special Features
-
-#### AI Analyst (NLP-to-SQL)
-Query your security data using natural language.
-1.  **Setup**: `python backend/ai_analyst_setup.py` (Seeds sample data if DB is empty)
-2.  **Run**: `python backend/ai_analyst_poc.py` (Requires `OPENAI_API_KEY`)
-
-#### Real-time Attack Map
--   Navigate to the **Overview** page on the dashboard.
--   The map visualizes live threats (mock data in dev, real IPs in prod).
-
-## API Documentation
-Once backend is running, visit: `http://localhost:8000/docs`
-
-## Licensing
-Proprietary - SecuRock Inc.
+## 🤝 Contributing
+For internal teams, follow the standard feature-branch workflow. Ensure all backend PRs pass the `pytest` suite and frontend code clears `eslint`.

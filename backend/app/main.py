@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.api import auth, organizations, alerts, ingest, incidents, analytics, subscriptions
+from app.api import auth, organizations, alerts, ingest, incidents, analytics, subscriptions, chat
 # import other routers...
 # import middleware
 from app.middleware.tenant_isolation import tenant_context_middleware
@@ -56,11 +56,12 @@ async def health_check():
 # Register all API routers
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(organizations.router, prefix="/api/organizations", tags=["organizations"])
-app.include_router(alerts.router, prefix="/api/alerts", tags=["alerts"])
+app.include_router(alerts.router, prefix="/api/anomalies", tags=["anomalies", "alerts"])
 app.include_router(ingest.router, prefix="/api/ingest", tags=["ingest"])
 app.include_router(incidents.router, prefix="/api/incidents", tags=["incidents"])
-app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
+app.include_router(analytics.router, prefix="/api/dashboard", tags=["dashboard", "analytics"])
 app.include_router(subscriptions.router, prefix="/api/subscriptions", tags=["subscriptions"])
+app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 
 from prometheus_fastapi_instrumentator import Instrumentator
 Instrumentator().instrument(app).expose(app)

@@ -54,11 +54,10 @@ async def process_logs():
                 if final_risk > 0.5:
                     try:
                         risk_assessment = await ai_service.analyze_log(log_data)
-                        log_data["ai_narrative"] = risk_assessment.narrative
-                        log_data["remediation"] = risk_assessment.remediation_steps
+                        log_data["ai_analysis"] = risk_assessment.model_dump()
                     except Exception as e:
                         print(f"AI Error: {e}")
-                        log_data["ai_narrative"] = "AI Analysis failed."
+                        log_data["ai_analysis"] = {"error": "AI Analysis failed."}
 
                 # Index to OpenSearch
                 await es_service.index_document("logs", log_data)

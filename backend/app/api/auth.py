@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter, Depends, HTTPException, status, Response, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, Response, BackgroundTasks, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordRequestForm
 from app.database import get_db
@@ -80,9 +80,13 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
 @router.post("/refresh", response_model=Token)
-async def refresh_token(token_data: RefreshToken, db: AsyncSession = Depends(get_db)):
+async def refresh_token(request: Request, db: AsyncSession = Depends(get_db)):
+    refresh_token = request.cookies.get("refresh_token")
+    if not refresh_token:
+        raise HTTPException(status_code=401, detail={"error": "MISSING_TOKEN", "message": "Refresh token missing from cookies"})
+        
     try:
-        payload = decode_token(token_data.refresh_token)
+        payload = decode_token(refresh_token)
         if payload.get("type") != "refresh":
              raise HTTPException(status_code=401, detail={"error": "INVALID_TOKEN", "message": "Invalid token type"})
         
@@ -108,7 +112,9 @@ async def refresh_token(token_data: RefreshToken, db: AsyncSession = Depends(get
             subject={"user_id": str(user.id), "organization_id": str(user.organization_id), "role": user.role}
         )
         
-        return {"access_token": new_access_token, "refresh_token": token_data.refresh_token, "token_type": "bearer"}
+        return {"access_token": new_access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Refresh token error: {e}")
         raise HTTPException(status_code=401, detail={"error": "INVALID_TOKEN", "message": "Invalid or expired refresh token"})

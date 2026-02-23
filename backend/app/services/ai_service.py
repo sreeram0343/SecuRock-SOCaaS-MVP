@@ -6,9 +6,13 @@ from app.config import settings
 from typing import List, Optional
 
 class RiskAssessment(BaseModel):
+    executive_summary: str = Field(description="High-level overview suitable for C-suite")
+    technical_analysis: str = Field(description="Detailed technical breakdown of the event")
+    timeline_of_events: List[str] = Field(description="Chronological sequence of actions")
+    risk_justification: str = Field(description="Explanation of why this risk score was assigned")
+    recommended_remediation: List[str] = Field(description="Actionable steps to mitigate the threat")
+    business_impact: str = Field(description="Potential impact on the business if unmitigated")
     risk_score: float = Field(description="A score between 0.0 and 1.0 indicating security risk")
-    narrative: str = Field(description="A human-readable explanation of the security event")
-    remediation_steps: List[str] = Field(description="List of actionable steps to mitigate the threat")
 
 class AIService:
     def __init__(self):
@@ -35,9 +39,13 @@ class AIService:
             print(f"AI Analysis failed: {e}")
             # Fallback
             return RiskAssessment(
-                risk_score=0.1, 
-                narrative="AI Analysis unavailable. Review raw logs.",
-                remediation_steps=["Check firewall logs", "Monitor user activity"]
+                executive_summary="AI Analysis unavailable due to service error.",
+                technical_analysis="Raw logs must be reviewed manually.",
+                timeline_of_events=["T0: Event detected", "T1: AI Analysis failed"],
+                risk_justification="Defaulting to baseline risk due to analysis failure.",
+                recommended_remediation=["Check firewall logs", "Monitor user activity"],
+                business_impact="Unknown until manual review is completed.",
+                risk_score=0.1
             )
 
 ai_service = AIService()
