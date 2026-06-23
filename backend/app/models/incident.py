@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, String, DateTime, ForeignKey, Text
+from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Float, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
@@ -22,6 +22,14 @@ class Incident(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     resolved_at = Column(DateTime, nullable=True)
     resolution_notes = Column(Text, nullable=True)
+
+    # AI Investigation Fields
+    risk_score = Column(Float, default=0.0)
+    patient_zero = Column(String(255), nullable=True)
+    blast_radius = Column(JSON, default=lambda: {})
+    timeline = Column(JSON, default=lambda: [])
+    ai_summary = Column(Text, nullable=True)
+    remediation_steps = Column(JSON, default=lambda: [])
 
     organization = relationship("Organization", back_populates="incidents")
     creator = relationship("User", foreign_keys=[created_by], back_populates="created_incidents")

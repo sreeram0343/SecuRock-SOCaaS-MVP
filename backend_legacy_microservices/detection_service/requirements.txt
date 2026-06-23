@@ -1,5 +1,0 @@
-redis
-requests
-scikit-learn
-numpy
-pydantic

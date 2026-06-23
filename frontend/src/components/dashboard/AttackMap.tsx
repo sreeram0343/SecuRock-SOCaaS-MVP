@@ -2,7 +2,7 @@
 import React from "react";
 import { ComposableMap, Geographies, Geography, Marker, Line } from "react-simple-maps";
 
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const geoUrl = "/countries-110m.json";
 
 interface MapProps {
     attacks: Array<{

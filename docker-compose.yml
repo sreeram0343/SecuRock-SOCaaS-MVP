@@ -13,7 +13,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://securock:supersecretpassword@db:5432/securock
+      - DATABASE_URL=postgresql+asyncpg://securock:supersecretpassword@db:5432/securock
       - REDIS_URL=redis://redis:6379/0
       - OPENSEARCH_URL=https://opensearch:9200
       - SECRET_KEY=${SECRET_KEY:-supersecretkey}
@@ -57,7 +57,7 @@ services:
     command: python -m app.workers.log_processor
     restart: always
     environment:
-      - DATABASE_URL=postgresql://securock:supersecretpassword@db:5432/securock
+      - DATABASE_URL=postgresql+asyncpg://securock:supersecretpassword@db:5432/securock
       - REDIS_URL=redis://redis:6379/0
       - OPENSEARCH_URL=https://opensearch:9200
     depends_on:

@@ -47,6 +47,7 @@ class CorrelationService:
             )
             db.add(new_alert)
             await db.commit()
+            await db.refresh(new_alert)
             print(f"Alert Created: {alert_title}")
 
             # Push to Redis PubSub for WebSocket
@@ -54,7 +55,7 @@ class CorrelationService:
             import json
             # Convert alert to dict (simplistic)
             alert_payload = {
-                "id": new_alert.id, # Might be None until refresh, but okay
+                "id": str(new_alert.id),
                 "title": new_alert.title,
                 "severity": new_alert.severity,
                 "timestamp": str(datetime.datetime.utcnow())

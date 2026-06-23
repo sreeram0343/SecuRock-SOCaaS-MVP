@@ -2,7 +2,7 @@
 from pydantic import BaseModel, ConfigDict
 from uuid import UUID
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 class IncidentBase(BaseModel):
     title: str
@@ -28,5 +28,13 @@ class IncidentResponse(IncidentBase):
     created_at: datetime
     resolved_at: Optional[datetime] = None
     resolution_notes: Optional[str] = None
+    
+    # AI Investigation Response Fields
+    risk_score: float = 0.0
+    patient_zero: Optional[str] = None
+    blast_radius: Optional[Dict] = None
+    timeline: Optional[List] = None
+    ai_summary: Optional[str] = None
+    remediation_steps: Optional[List] = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -23,7 +23,7 @@ async def init_db():
     async with engine.begin() as conn:
         print("\nCreating all tables...")
         await conn.run_sync(Base.metadata.create_all)
-        print("\n✓ All tables created successfully!")
+        print("\nAll tables created successfully!")
     
     await engine.dispose()
     print("\nDatabase initialization complete!")

@@ -23,7 +23,13 @@ class IngestEvent(BaseModel):
 
 async def process_event(event: IngestEvent, organization_id: str, db: AsyncSession):
     # ML Detection Logic
-    confidence = ml_service.predict_anomaly([]) # Pass features
+    meta = event.metadata or {}
+    features = [
+        meta.get("packet_size", 0),
+        meta.get("duration", 0),
+        meta.get("rate", 0)
+    ]
+    confidence = ml_service.predict_anomaly(features)
     
     is_anomaly = confidence > 0.8 # Threshold
     
