@@ -6,8 +6,13 @@ logger = logging.getLogger(__name__)
 
 class ThreatIntelService:
     def __init__(self):
-        self.abuseipdb_key = "YOUR_ABUSEIPDB_KEY" # In prod, use env var
-        # Simple local blocklist for MVP
+        # Retrieve AbuseIPDB API key from system environment variables
+        # Fallback value is provided for dev/demo testing
+        import os
+        self.abuseipdb_key = os.getenv("ABUSEIPDB_KEY", "YOUR_ABUSEIPDB_KEY")
+        
+        # Static local blocklist of known malicious IP boundaries
+        # Typically sourced from local feeds or caching layer in production
         self.blocklist = {
             "192.168.1.100": "Known Malicious Actor",
             "10.0.0.99": "Botnet C2",
