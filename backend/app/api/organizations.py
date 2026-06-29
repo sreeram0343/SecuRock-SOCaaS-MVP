@@ -7,9 +7,11 @@ from app.models.organization import Organization
 from app.schemas.organization import OrganizationResponse
 from sqlalchemy.future import select
 
+from app.middleware.rbac import PermissionChecker
+
 router = APIRouter()
 
-@router.get("/me", response_model=OrganizationResponse)
+@router.get("/me", response_model=OrganizationResponse, dependencies=[Depends(PermissionChecker(["read:dashboard"]))])
 async def get_my_organization(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
