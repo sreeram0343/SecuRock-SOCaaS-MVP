@@ -8,6 +8,7 @@ import Overview from '@/pages/dashboard/Overview';
 import Alerts from '@/pages/dashboard/Alerts';
 import Incidents from '@/pages/dashboard/Incidents';
 import Analytics from '@/pages/dashboard/Analytics';
+import Settings from '@/pages/dashboard/Settings';
 import PageShell from '@/components/layout/PageShell';
 import PlatformPage from '@/pages/public/PlatformPage';
 import SolutionsPage from '@/pages/public/SolutionsPage';
@@ -44,7 +45,7 @@ function App() {
                     <Route path="alerts" element={<Alerts />} />
                     <Route path="incidents" element={<Incidents />} />
                     <Route path="analytics" element={<Analytics />} />
-                    <Route path="settings" element={<div className="text-white">Settings Page (Coming Soon)</div>} />
+                    <Route path="settings" element={<Settings />} />
                 </Route>
 
                 {/* Expanded Site Structure */}
