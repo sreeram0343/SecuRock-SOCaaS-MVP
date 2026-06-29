@@ -32,7 +32,9 @@ class CorrelationService:
             # Create Alert
             # Use placeholder Org ID if not present in log
             # In a real system, we'd lookup Org from token/API key associated with log source
-            org_id = log.get("organization_id") or "00000000-0000-0000-0000-000000000000"
+            import uuid
+            org_id_raw = log.get("organization_id") or "00000000-0000-0000-0000-000000000000"
+            org_id = uuid.UUID(org_id_raw) if isinstance(org_id_raw, str) else org_id_raw
             
             new_alert = Alert(
                 organization_id=org_id,
