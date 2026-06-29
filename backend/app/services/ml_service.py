@@ -27,6 +27,9 @@ class MLService:
         if ML_AVAILABLE:
             self.load_model()
         else:
+            # Fallback strategy: If Python packages (scikit-learn, numpy, pandas) are
+            # unavailable or fail to compile on target systems (such as lightweight containers),
+            # the service continues to operate in statistical z-score evaluation mode.
             print("ML Service running in heuristic mode (no ML libs).")
 
         # Typical statistical baselines for traffic features (packet_size, duration, request_rate)
